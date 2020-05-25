@@ -1,0 +1,7 @@
+{
+    "name": "jankenOnline2",
+    "description": "ジャンケンをオンラインで",
+    "logo": "",
+    "keywords": ["node"],
+    "image": "heroku/nodejs"
+  }
