@@ -40,7 +40,7 @@ app.use(passport.session());
 passport.use(new TwitterStrategy({
   consumerKey: 'RpwO4HmlMAF8KeHnXdu9IyD5A',
   consumerSecret: 'mdvqn6OaWGqw9FB5oDdWD4qCYMxItSq4tQH0WqL0w1QefkZYqF',
-  callbackURL: '..../auth/twitter/callback'
+  callbackURL: 'https://jankenonline2.herokuapp.com/auth/twitter/callback'
 },
 // 認証後の処理
 function(token, tokenSecret, profile, done) {
