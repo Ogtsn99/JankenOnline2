@@ -26,6 +26,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.get('/logout', function(req, res){
+  console.log("logout");
+  req.logout();
+  res.redirect('/');
+});
 
 app.use(session({
   secret: 'secret-key',
@@ -66,10 +71,6 @@ app.get('/auth/twitter/callback',
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
-});
-app.get('/logout', function(req, res){
-  req.logout();
-  res.redirect('/');
 });
 
 // error handler

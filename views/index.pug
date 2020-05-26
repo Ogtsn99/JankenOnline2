@@ -9,9 +9,8 @@ html(lang="ja")
     title JankenOnline2
   body.container
     div.my-3
-      - var user = 0;
       if user
-        a(href="/logout").btn.btn-info.float-right #{username}さん
+        a(href="/logout").btn.btn-info.float-right #{uer.username}さん
       else 
         a(href="/auth/twitter").btn.btn-info.float-right ログイン
       h1 JankenOnline2
