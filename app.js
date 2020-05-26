@@ -65,7 +65,7 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/?auth_failed' }),
   function (req, res) {
-    res.redirect('/success');
+    res.redirect('/');
   });
 
 // catch 404 and forward to error handler
