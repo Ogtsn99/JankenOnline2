@@ -67,6 +67,10 @@ app.get('/auth/twitter/callback',
 app.use(function(req, res, next) {
   next(createError(404));
 });
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
 
 // error handler
 app.use(function(err, req, res, next) {
