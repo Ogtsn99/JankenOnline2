@@ -9,11 +9,11 @@ html(lang="ja")
     title JankenOnline2
   body.container
     div.my-3
-      - var user = 1;
+      - var user = 0;
       if user
         a(href="/logout").btn.btn-info.float-right #{username}さん
       else 
-        a(href="/logout").btn.btn-info.float-right ログイン
+        a(href="/auth/twitter").btn.btn-info.float-right ログイン
       h1 JankenOnline2
         
     script(src="https://code.jquery.com/jquery-3.2.1.slim.min.js")
