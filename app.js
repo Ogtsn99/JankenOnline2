@@ -14,6 +14,14 @@ var usersRouter = require('./routes/users');
 var app = express();
 app.use(helmet());
 
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (obj, done) {
+  done(null, obj);
+});
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -24,8 +32,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({ secret: '3ef868fd736ff7fa' }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.get('/logout', function(req, res){
+  console.log("logout");
+  req.logout();
+  res.redirect('/');
+});
 
 app.use(session({
   secret: 'secret-key',
@@ -40,7 +56,7 @@ app.use(passport.session());
 passport.use(new TwitterStrategy({
   consumerKey: 'RpwO4HmlMAF8KeHnXdu9IyD5A',
   consumerSecret: 'mdvqn6OaWGqw9FB5oDdWD4qCYMxItSq4tQH0WqL0w1QefkZYqF',
-  callbackURL: '..../auth/twitter/callback'
+  callbackURL: 'https://jankenonline2.herokuapp.com/auth/twitter/callback'
 },
 // 認証後の処理
 function(token, tokenSecret, profile, done) {
@@ -60,7 +76,7 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/?auth_failed' }),
   function (req, res) {
-    res.redirect('/success');
+    res.redirect('/');
   });
 
 // catch 404 and forward to error handler
