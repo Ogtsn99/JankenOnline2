@@ -82,12 +82,12 @@ function(token, tokenSecret, profile, done) {
           console.log(profile.username + "さん" + "初めまして!");
           User.insert({
             userId: userId,
-            userTwitterId: profile.id,
+            userTwitterId: profile.id_str,
             username: profile.username
           })
           Result.insert({
             userId: userId,
-            userTwitterId: profile.id,
+            userTwitterId: profile.id_str,
             win: 0,
             lose: 0,
             draw: 0,

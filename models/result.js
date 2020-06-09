@@ -4,7 +4,7 @@ const Sequelize = loader.Sequelize;
 
 const Result = loader.database.define('results', {
   userTwitterId: { //userと同じ
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     primaryKey: true,
     allowNull: false
   },

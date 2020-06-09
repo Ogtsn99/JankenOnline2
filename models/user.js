@@ -9,7 +9,7 @@ const User = loader.database.define('users', {
     allowNull: false
   },
   userTwitterId: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     primaryKey: false,
     allowNull: false
   },
