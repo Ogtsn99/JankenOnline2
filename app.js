@@ -8,7 +8,6 @@ var session = require('express-session');
 var passport = require('passport');
 const uuid = require('uuid');
 var TwitterStrategy = require('passport-twitter').Strategy;
-
 // モデルの読み込み
 var User = require('./models/user');
 var Result = require('./models/result');

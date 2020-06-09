@@ -3,9 +3,14 @@ const loader = require('./sequelize-loader');
 const Sequelize = loader.Sequelize;
 
 const Result = loader.database.define('results', {
+  userId: {
+    type: Sequelize.UUID,
+    primaryKey: true,
+    allowNull: false
+  },
   userTwitterId: { //userと同じ
     type: Sequelize.STRING,
-    primaryKey: true,
+    primaryKey: false,
     allowNull: false
   },
   win: {
