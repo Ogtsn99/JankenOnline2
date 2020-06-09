@@ -75,7 +75,7 @@ function(token, tokenSecret, profile, done) {
   process.nextTick(function () {
       const userId = uuid.v4();
       User.findOne({
-        where: {userTwitterId: profile.id}
+        where: {userTwitterId: profile.id_str}
         }
       ).then((userdata) => {
         if(!userdata || userdata.length == 0){//ユーザー登録されていない
