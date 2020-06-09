@@ -71,10 +71,11 @@ passport.use(new TwitterStrategy(
 },
 // 認証後の処理
 function(token, tokenSecret, profile, done) {
-  console.log("認証")
+  const userId = uuid.v4();
+  const twitterUserId = profile.id_str;
+  const username = profile.username;
+  console.log("***" + username + " さん" + "TWITTER ID:" + twitterUserId);
   process.nextTick(function () {
-      const userId = uuid.v4();
-      const twitterUserId = profile.id_str;
       console.log(twitterUserId);
       User.findOne({
         where: {userTwitterId: profile.id_str}
