@@ -43,7 +43,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({ secret: '3ef868fd736ff7fa' }));
+app.use(session({ secret: '3ef868fd736ff7fa' ,resave: false, saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', indexRouter);
@@ -64,7 +64,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // passport-twitterの設定
-passport.use(new TwitterStrategy({
+passport.use(new TwitterStrategy(
+{
   consumerKey: TWITTER_CONSUMER_KEY,
   consumerSecret: TWITTER_CONSUMER_SECRET,
   callbackURL: 'https://jankenonline2.herokuapp.com/auth/twitter/callback'
