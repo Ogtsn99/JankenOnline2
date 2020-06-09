@@ -80,12 +80,12 @@ function(token, tokenSecret, profile, done) {
       ).then((userdata) => {
         if(!userdata || userdata.length == 0){//ユーザー登録されていない
           console.log(profile.username + "さん" + "初めまして!");
-          User.insert({
+          User.upsert({
             userId: userId,
             userTwitterId: profile.id_str,
             username: profile.username
           })
-          Result.insert({
+          Result.upsert({
             userId: userId,
             userTwitterId: profile.id_str,
             win: 0,
