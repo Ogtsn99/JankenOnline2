@@ -75,9 +75,9 @@ function(token, tokenSecret, profile, done) {
   const twitterUserId = profile.id;
   const username = profile.username;
   const Id_str = twitterUserId.toString();
-  console.log("***" + username + " さん" + "TWITTER ID:" + twitterUserId)
+  console.log("***" + username + " さん" + "TWITTER ID:" + Id_str)
   process.nextTick(function () {
-      console.log(twitterUserId);
+      console.log(Id_str + "を探します");
       User.findOne({
         where: {userTwitterId: Id_str}
         }
