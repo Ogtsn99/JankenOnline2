@@ -71,7 +71,7 @@ passport.use(new TwitterStrategy({
 },
 // 認証後の処理
 function(token, tokenSecret, profile, done) {
-  
+  console.log("認証")
   process.nextTick(function () {
       const userId = uuid.v4();
       User.findOne({
@@ -98,10 +98,10 @@ function(token, tokenSecret, profile, done) {
         }else{
           console.log(profile.username + "さんこんにちは!");
         }
+      }).then(() => {
         done(null, profile);
       })
   });
-  return done(null, profile);
 }
 ));
 
