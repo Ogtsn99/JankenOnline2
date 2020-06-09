@@ -13,10 +13,15 @@
     "helmet": "1.1.0",
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
+    "mysql": "^2.18.1",
     "passport": "^0.4.1",
     "passport-github2": "0.1.9",
     "passport-twitter": "^1.0.4",
-    "pug": "2.0.0-beta11"
+    "pg": "7.4.1",
+    "pg-hstore": "2.3.2",
+    "pug": "2.0.0-beta11",
+    "sequelize": "4.33.4",
+    "uuid": "^8.1.0"
   },
   "engines": {
     "node": "~10"

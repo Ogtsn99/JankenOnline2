@@ -6,13 +6,23 @@ var logger = require('morgan');
 var helmet = require('helmet');
 var session = require('express-session');
 var passport = require('passport');
+const uuid = require('uuid');
 var TwitterStrategy = require('passport-twitter').Strategy;
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+// モデルの読み込み
+var User = require('./models/user');
+var Results = require('./models/result');
+Results.belongsTo(User, {foreignKey: 'userId'});
+Results.sync();
+
+var TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY;
+var TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET;
 
 var app = express();
 app.use(helmet());
+
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -54,12 +64,40 @@ app.use(passport.session());
 
 // passport-twitterの設定
 passport.use(new TwitterStrategy({
-  consumerKey: 'RpwO4HmlMAF8KeHnXdu9IyD5A',
-  consumerSecret: 'mdvqn6OaWGqw9FB5oDdWD4qCYMxItSq4tQH0WqL0w1QefkZYqF',
+  consumerKey: TWITTER_CONSUMER_KEY,
+  consumerSecret: TWITTER_CONSUMER_SECRET,
   callbackURL: 'https://jankenonline2.herokuapp.com/auth/twitter/callback'
 },
 // 認証後の処理
 function(token, tokenSecret, profile, done) {
+  
+  process.nextTick(function () {
+      const userId = uuid.v4();
+      User.findOne({
+        where: {userTwitterId: profile.id}
+        }
+      ).then((userdata) => {
+        if(!userdata){//ユーザー登録されていない
+          console.log(profile.username + "さん" + "初めまして!");
+          User.insert({
+            userId: userId,
+            userTwitterId: profile.id,
+            username: profile.username
+          })
+          Results.insert({
+            userId: userId,
+            userTwitterId: profile.id,
+            win: 0,
+            lose: 0,
+            draw: 0,
+            gu: 0,
+            choki: 0,
+            pa: 0
+          })
+        }
+        done(null, profile);
+      })
+  });
   return done(null, profile);
 }
 ));
@@ -94,4 +132,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 module.exports = app;
