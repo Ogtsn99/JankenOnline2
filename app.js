@@ -95,6 +95,8 @@ function(token, tokenSecret, profile, done) {
             choki: 0,
             pa: 0
           })
+        }else{
+          console.log(profile.username + "さんこんにちは!");
         }
         done(null, profile);
       })
