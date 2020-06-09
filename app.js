@@ -11,12 +11,13 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 
 // モデルの読み込み
 var User = require('./models/user');
-var Results = require('./models/result');
-Results.belongsTo(User, {foreignKey: 'userId'});
-Results.sync();
+var Result = require('./models/result');
 
-var TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY;
-var TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET;
+Result.belongsTo(User, {foreignKey: 'userTwitterId'});
+Result.sync();
+
+var TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY || '114514';
+var TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET || '114514';
 
 var app = express();
 app.use(helmet());
@@ -77,14 +78,14 @@ function(token, tokenSecret, profile, done) {
         where: {userTwitterId: profile.id}
         }
       ).then((userdata) => {
-        if(!userdata){//ユーザー登録されていない
+        if(!userdata || userdata.length == 0){//ユーザー登録されていない
           console.log(profile.username + "さん" + "初めまして!");
           User.insert({
             userId: userId,
             userTwitterId: profile.id,
             username: profile.username
           })
-          Results.insert({
+          Result.insert({
             userId: userId,
             userTwitterId: profile.id,
             win: 0,
