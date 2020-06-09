@@ -2,12 +2,7 @@
 const loader = require('./sequelize-loader');
 const Sequelize = loader.Sequelize;
 
-const Results = loader.database.define('results', {
-  userId: { //userと同じにする
-    type: Sequelize.INTEGER,
-    primaryKey: true,
-    allowNull: false
-  },
+const Result = loader.database.define('results', {
   userTwitterId: { //userと同じ
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -42,4 +37,4 @@ const Results = loader.database.define('results', {
     timestamps: false
   });
 
-module.exports = Results;
+module.exports = Result;
