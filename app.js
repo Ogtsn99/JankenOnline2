@@ -72,13 +72,13 @@ passport.use(new TwitterStrategy(
 // 認証後の処理
 function(token, tokenSecret, profile, done) {
   const userId = uuid.v4();
-  const twitterUserId = profile.id_str;
+  const twitterUserId = profile.id;
   const username = profile.username;
-  console.log("***" + username + " さん" + "TWITTER ID:" + twitterUserId);
+  console.log("***" + username + " さん" + "TWITTER ID:" + twitterUserId)
   process.nextTick(function () {
       console.log(twitterUserId);
       User.findOne({
-        where: {userTwitterId: profile.id_str}
+        where: {userTwitterId: profile.id}
         }
       ).then((userdata) => {
         console.log("user id" + profile.id)
