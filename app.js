@@ -74,25 +74,25 @@ function(token, tokenSecret, profile, done) {
   const userId = uuid.v4();
   const twitterUserId = profile.id;
   const username = profile.username;
-  //const Id_str = twitterUserId.toString();
-  console.log("***" + username + " さん" + "TWITTER ID:" + profile.id_str)
+  const Id_str = twitterUserId.toString();
+  console.log("***" + username + " さん" + "TWITTER ID:" + Id_str)
   process.nextTick(function () {
-      console.log(profile.id_str + "を探します");
+      console.log(Id_str+ "=" + "を探します");
       User.findOne({
-        where: {userTwitterId: profile.id_str}
+        where: {userTwitterId: Id_str}
         }
       ).then((userdata) => {
-        console.log("user id" + profile.id_str)
+        console.log("user id" + Id_str)
         if(!userdata || userdata.length == 0){//ユーザー登録されていない
           console.log(profile.username + "さん" + "初めまして!");
           User.upsert({
             userId: userId,
-            userTwitterId: profile.id_str,
+            userTwitterId: Id_str,
             username: profile.username
           })
           Result.upsert({
             userId: userId,
-            userTwitterId: profile.id_str,
+            userTwitterId: Id_str,
             win: 0,
             lose: 0,
             draw: 0,
