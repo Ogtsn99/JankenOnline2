@@ -13,7 +13,7 @@ var TwitterStrategy = require('passport-twitter').Strategy;
 var User = require('./models/user');
 var Result = require('./models/result');
 
-Result.belongsTo(User, {foreignKey: 'userTwitterId'});
+User.sync();
 Result.sync();
 
 var TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY || '114514';
