@@ -9,7 +9,7 @@ router.get('/:userId', function(req, res, next) {
   User.findByPk(userId).then(user => {
     if(!user) res.send("ごめんね。ユーザーが見つからなかったよ");
     else{
-      Result.findByPk(req.params.userId).then(result=>{
+      Result.findByPk(userId).then(result=>{
         res.render('user', {user: user, result: result});
       })
     }
