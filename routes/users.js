@@ -5,7 +5,8 @@ const Result = require('../models/result');
 
 /* GET users listing. */
 router.get('/:userId', function(req, res, next) {
-  User.findByPk(req.params.userId).then(user => {
+  var userId = req.params.userId.slice(1);
+  User.findByPk(userId).then(user => {
     if(!user) res.send("ごめんね。ユーザーが見つからなかったよ");
     else{
       Result.findByPk(req.params.userId).then(result=>{
