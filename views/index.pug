@@ -10,7 +10,7 @@ html(lang="ja")
   body.container
     div.my-3
       if user
-        a(href=`/users/:${user.id}`).btn.btn-info.float-right #{user.username}さん
+        a(href=`/users/:${userId}`).btn.btn-info.float-right #{user.username}さん
       else 
         a(href="/auth/twitter").btn.btn-info.float-right ログイン
       h1 JankenOnline2

@@ -83,6 +83,7 @@ function(token, tokenSecret, profile, done) {
         }
       ).then((userdata) => {
         console.log("user id" + Id_str)
+        req.userId = userId;
         if(!userdata || userdata.length == 0){//ユーザー登録されていない
           console.log(profile.username + "さん" + "初めまして!");
           User.upsert({
@@ -101,6 +102,7 @@ function(token, tokenSecret, profile, done) {
             pa: 0
           })
         }else{
+          req.userId = userdata.userId;
           console.log(profile.username + "さんこんにちは!");
         }
       }).then(() => {
