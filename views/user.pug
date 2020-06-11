@@ -1,11 +1,11 @@
 extends layout
-    body.container
-        h1 #{user.username}
-        p 勝ち: #{result.win}
-        p 負け: #{result.lose}
-        p あいこ: #{result.draw}
-        p グー: #{result.gu}
-        p チョキ: #{result.choki}
-        p パー: #{result.pa}
-        if yours
-        a(href="/logout").btn.btn-info.float-right ログアウト
+  body.container
+    h1 #{user.username}
+		p 勝ち: #{result.win}
+		p 負け: #{result.lose}
+		p あいこ: #{result.draw}
+		p グー: #{result.gu}
+		p チョキ: #{result.choki}
+		p パー: #{result.pa}
+		if yours
+		a(href="/logout").btn.btn-info.float-right ログアウト
