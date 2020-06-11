@@ -10,11 +10,11 @@ router.get('/:userId', function(req, res, next) {
     if(!user) res.send("ごめんね。ユーザーが見つからなかったよ");
     else{
       Result.findByPk(userId).then(result=>{
-        res.render('user', {user: user, result: result});
+        if(!result) res.send("ごめんね。対戦成績が見つからなかったよ");
+        else res.render('user', {user: user, result: result, yours: true});
       })
     }
   })
-  //res.send("userid:" + req.params.userId + " req.user.id:" + req.user.id);
 });
 
 module.exports = router;
