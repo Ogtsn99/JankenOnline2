@@ -6,8 +6,9 @@ router.get('/', function(req, res, next) {
   if(req.user){
     User.findOne({
       where: {userTwitterId: req.user.id.toString()}
-    }).then( (userdata) =>{
-      res.render('index', { title: 'Express', user: req.user, userId: userdata.userId});
+    }).then( (user) =>{
+      //res.render('index', { title: 'Express', user: req.user, userId: userdata.userId});
+      res.render('index', { title: 'Express', user: user});
     })
   }else{
       res.render('index', { title: 'Express'});

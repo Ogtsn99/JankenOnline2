@@ -1,6 +1,8 @@
 extends layout
 block content
   div.my-3
+    h1.float-left
+      a(href="/") JankenOnline2
     p ユーザー情報
     form(method="post", action=`/users/${user.userId}/edit1`)
       div.form-group
