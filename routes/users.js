@@ -37,16 +37,17 @@ router.post('/:userId/edit1', (req, res) => {
   User.findByPk(userId).then(user => {
     if(!user) res.send("ごめんね。ユーザーが見つからなかったよ。");
     else{
+      console.log("user Found");
       if(user.userTwitterId != req.user.id.toString()){
         res.send("権限がありません");
       }else {
-        const newName = req.body.name; //newnameに変更してupdate
-        user.username = newName;
-        User.update(user).then(() => {
+        console.log("updateします");
+        User.update({ name: req.body.name }, { where: {userId: userId} }).then(()=>{
+          console.log("変更! id:" + userId + "のユーザーネームを" + req.body.name)
           res.redirect('/users/' + userId);
-        })
+        });
       }
     }
-  })
+  });
 })
 module.exports = router;
