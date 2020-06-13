@@ -1,8 +1,6 @@
 extends layout
 block content
   div.my-3
-    h1.float-left
-      a(href="/") JankenOnline2
     h1 #{user.username}
     if user.isSelf
     a(href='/users/' + user.userId + '/edit').btn.btn-info 変更
