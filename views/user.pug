@@ -3,8 +3,7 @@ block content
   div.my-3
     h1 #{user.username}
     if user.isSelf
-    - var nexturl = url + '/edit';
-    a(href=nexturl).btn.btn-info 変更
+    a(href='/users/' + user.userId + '').btn.btn-info 変更
     //TODO 変更ボタンを作る
     p 勝ち: #{result.win}
     p 負け: #{result.lose}

@@ -5,7 +5,7 @@ const Result = require('../models/result');
 
 /* GET users listing. */
 router.get('/:userId', function(req, res, next) {
-  var userId = req.params.userId.slice(1);
+  var userId = req.params.userId;
   User.findByPk(userId).then(user => {
     if(!user) res.send("ごめんね。ユーザーが見つからなかったよ");
     else{
@@ -18,7 +18,7 @@ router.get('/:userId', function(req, res, next) {
 });
 
 router.get('/:userId/edit', function(req, res, next) {
-  var userId = req.params.userId.slice(1);
+  var userId = req.params.userId;
   User.findByPk(userId).then(user => {
     if(!user) res.send("ごめんね。ユーザーが見つからなかったよ");
     else{
@@ -30,7 +30,7 @@ router.get('/:userId/edit', function(req, res, next) {
 });
 
 router.post('/:userId', (req, res) => {
-  var userId = req.params.userId.slice(1);
+  var userId = req.params.userId;
   User.findByPk(userId).then(user => {
     if(!user) res.send("ごめんね。ユーザーが見つからなかったよ");
     else{
@@ -39,7 +39,9 @@ router.post('/:userId', (req, res) => {
       }else {
         const newName = req.body.name; //newnameに変更してupdate
         user.username = newName;
-        User.update(user);
+        User.update(user).then(() => {
+          res.redirect('/users/' + userId);
+        })
       }
     }
   })
