@@ -31,7 +31,8 @@ router.get('/:userId/edit', function(req, res, next) {
 });
 
 //ユーザー情報の変更。現在は名前だけ
-router.post('/:userId/edit', (req, res) => {
+router.post('/:userId/edit1', (req, res) => {
+  console.log("ユーザー情報の変更");
   var userId = req.params.userId;
   User.findByPk(userId).then(user => {
     if(!user) res.send("ごめんね。ユーザーが見つからなかったよ。");
