@@ -29,10 +29,10 @@ router.get('/:userId/edit', function(req, res, next) {
   })
 });
 
-router.post('/:userId', (req, res) => {
+router.post('/:userId/edit', (req, res) => {
   var userId = req.params.userId;
   User.findByPk(userId).then(user => {
-    if(!user) res.send("ごめんね。ユーザーが見つからなかったよ");
+    if(!user) res.send("ごめんね。ユーザーが見つからなかったよ。");
     else{
       if(user.userTwitterId != req.user.id.toString()){
         res.send("権限がありません");
