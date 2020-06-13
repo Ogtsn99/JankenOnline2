@@ -34,20 +34,24 @@ router.get('/:userId/edit', function(req, res, next) {
 router.post('/:userId/edit1', (req, res) => {
   console.log("ユーザー情報の変更");
   var userId = req.params.userId;
-  User.findByPk(userId).then(user => {
-    if(!user) res.send("ごめんね。ユーザーが見つからなかったよ。");
-    else{
-      console.log("user Found");
-      if(user.userTwitterId != req.user.id.toString()){
-        res.send("権限がありません");
-      }else {
-        console.log("updateします");
-        User.update({ name: req.body.name }, { where: {userId: userId} }).then(()=>{
-          console.log("変更! id:" + userId + "のユーザーネームを" + req.body.name)
-          res.redirect('/users/' + userId);
-        });
+  if(!req.body.name){
+    res.send("無効な入力です");
+  }else {
+    User.findByPk(userId).then(user => {
+      if(!user) res.send("ごめんね。ユーザーが見つからなかったよ。");
+      else{
+        console.log("user Found");
+        if(user.userTwitterId != req.user.id.toString()){
+          res.send("権限がありません");
+        }else {
+          console.log("updateします");
+          User.update({ username: req.body.name }, { where: {userTwitterId: req.user.id.toString()} }).then(()=>{
+            console.log("変更! id:" + userId + "のユーザーネームを" + req.body.name)
+            res.redirect('/users/' + userId);
+          });
+        }
       }
-    }
-  });
+    });
+  }
 })
 module.exports = router;
