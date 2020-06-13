@@ -16,7 +16,7 @@ html
       ul.navbar-nav
         if user
           li.nav-item
-            a(href="/logout").nav-link #{user.username} をログアウト
+            a(href="/users/" + user.userId).nav-link #{user.username}さん
         else
           li.nav-item
             a(href="/auth/twitter").nav-link ログイン
