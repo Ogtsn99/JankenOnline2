@@ -17,6 +17,7 @@ router.get('/:userId', function(req, res, next) {
   })
 });
 
+//edit画面へ移動
 router.get('/:userId/edit', function(req, res, next) {
   var userId = req.params.userId;
   User.findByPk(userId).then(user => {
@@ -29,6 +30,7 @@ router.get('/:userId/edit', function(req, res, next) {
   })
 });
 
+//ユーザー情報の変更。現在は名前だけ
 router.post('/:userId/edit', (req, res) => {
   var userId = req.params.userId;
   User.findByPk(userId).then(user => {
