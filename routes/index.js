@@ -7,12 +7,21 @@ router.get('/', function(req, res, next) {
     User.findOne({
       where: {userTwitterId: req.user.id.toString()}
     }).then( (user) =>{
-      //res.render('index', { title: 'Express', user: req.user, userId: userdata.userId});
       res.render('index', { title: 'Express', user: user});
     })
   }else{
       res.render('index', { title: 'Express'});
   }
 });
+
+router.post('/moveToRoom', (req, res, next) => {
+  //logにユーザーのtwitterIdを表示する
+  console.log("部屋"+ req.body.key + "に移動");
+  if(!req.body.key) res.send("原因は不明ですが失敗しました。ごめんなさい><");
+  var key = req.body.key;
+  if(key.length != 4) res.send("入力の長さが足りないようです");
+  if(!key.match(/\d{4}/)) res.send("入力は4桁の数字でお願いします");
+  res.redirect('/janken/' + key);
+})
 
 module.exports = router;

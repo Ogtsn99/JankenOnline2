@@ -6,6 +6,7 @@ var logger = require('morgan');
 var helmet = require('helmet');
 var session = require('express-session');
 var passport = require('passport');
+var socketio = require('socket.io')
 const uuid = require('uuid');
 var TwitterStrategy = require('passport-twitter').Strategy;
 // モデルの読み込み
@@ -23,6 +24,7 @@ app.use(helmet());
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var jankenRouter = require('./routes/janken');
 
 passport.serializeUser(function (user, done) {
   done(null, user);
@@ -47,6 +49,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/janken', jankenRouter);
 app.get('/logout', function(req, res){
   console.log("logout");
   req.logout();

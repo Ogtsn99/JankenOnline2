@@ -1,0 +1,20 @@
+extends layout
+block content
+  div.my-3
+    script(type="text/javascript" src="/socket.io/socket.io.js")
+    script(type='text/javascript').
+      console.log("hello")
+      console.log("roomId:" + #{roomId});
+      //ioはentry.jsにある
+      const socket = io('http://localhost:8000');
+      //本番環境では#{username}, #{userId}に変える
+      /*socket.on("canjoin", (data) => {
+        if(!data.ok){
+
+        }
+      })*/
+      //socket.emit("join", {roomId: #{roomId}, username: 'Taro', userId: '114514'});
+    p 次に出す手: 未設定
+    button#btnGu グー
+    button#btnPa チョキ
+    button#btnChoki パー

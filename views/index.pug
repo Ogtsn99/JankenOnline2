@@ -1,4 +1,14 @@
 extends layout
 block content
-  div.my-3
-    p 工事中
+  div(style="text-align: center;").jumbotron.my-3
+    h1.display-4 Janken Online 2
+    p.lead Janken Online 2 は離れていても公平なじゃんけんを楽しむことを可能にします。
+    p.lead 右上のボタンからtwitterのアカウントでログインし、早速じゃんけんをしてみましょう!
+  div(style="text-align: center;").my-3
+    form(method="post", action=`/moveToRoom`)
+      div.form-group
+        label(for="key") 半角数字4桁のキーを指定して部屋を作る、または入る:　
+        input(type="tel" name="key" minlength="4" maxlength="4" size="10" required).form-static
+      div
+        button(type="submit").btn.btn-info 部屋に移動
+    button(href="/").btn-outline-success 部屋1
