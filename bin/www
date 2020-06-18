@@ -6,8 +6,8 @@
 
 var app = require('../app');
 var debug = require('debug')('jankenonline2:server');
-//var http = require('http');
-var socketIO = require('../routes/socketIO')
+var http = require('http');
+//var socketIO = require('../routes/socketIO')
 
 /**
  * Get port from environment and store in Express.
@@ -19,17 +19,17 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-socketIO();
-//var server = http.createServer(app);
+//socketIO();
+var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
- /*
+ 
 server.listen(port);
 server.on('error', onError);
-server.on('listening', onListening);*/
+server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -90,3 +90,46 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+var express = require('express');
+var router = express.Router();
+const User = require('../models/user');
+const { count } = require('console');
+
+var io = require('socket.io')(server);
+
+global.numToJanken = {0: "グー", 1: "チョキ", 2: "パー"};
+global.te = {}; //socketId: ユーザーの次の手
+global.countPeople = {}; //roomId: ルームにいるユーザーの数
+global.roomMember = {}; //roomId: ルームにいるユーザー1のID, ユーザー2のID
+global.userResult = {}; //userId: 勝ち, あいこ, 負け, gu, choki, pa
+
+for (let roomId = 0; roomId < 10000; roomId++) {
+  countPeople[roomId.toString()] = 0;
+  roomMember[roomId.toString()] = [null, null];
+}
+
+io.sockets.on('connection', function(socket){
+  var roomId = "", username = "", userId = "", userNumber = 0, hand=-1, id = socket.id;
+  console.log("connected");
+  //socket処理
+  socket.on('join',function(data){
+      roomId = data.roomId, username = data.username, userId = data.userId, userNumber = data.userNumber;
+      socket.join(roomId);
+      te[id] = -1;
+      if(roomMember[roomId][0] = userId){
+        roomMember[roomId][0] = {userId: userId, socketId: socket.id};
+      }else roomMember[roomId][1] = {userId: userId, socketId: socket.id};
+      console.log(roomId + "に" + username + "さんが参加しました");
+  });
+  socket.on('disconnect', () => {
+      console.log(username + "さんが" + roomId + "から退出しました");
+      te[id] = -1; 
+      countPeople[roomId] -= 1;
+      if(countPeople[roomId] < 0) countPeople[roomId]=0;
+      io.sockets.in(roomId).emit("message_to_client", {value:"対戦相手が退出しました"});
+  })
+});
+
+//module.exports = {userMap, roomMap};
+

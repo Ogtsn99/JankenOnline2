@@ -6,7 +6,6 @@ var logger = require('morgan');
 var helmet = require('helmet');
 var session = require('express-session');
 var passport = require('passport');
-var socketio = require('socket.io')
 const uuid = require('uuid');
 var TwitterStrategy = require('passport-twitter').Strategy;
 // モデルの読み込み
