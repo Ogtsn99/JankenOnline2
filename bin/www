@@ -123,21 +123,26 @@ io.sockets.on('connection', function(socket){
   socket.on('join',function(data){
       roomId = data.roomId, username = data.username, userId = data.userId;
       socket.join(roomId);
-      io.in(roomId).clients((error, clients) => {
-        if(error) throw error;
-        console.log(clients, clients.length);
-        countPeople[roomId] = clients.length;
+      let promise = new Promise((resolve, reject) => { // #1
+        io.in(roomId).clients((error, clients) => {
+          if(error) throw error;
+          console.log(clients, clients.length);
+          countPeople[roomId] = clients.length;
+        });
+        resolve("ok")
       });
-      userResult[id] = {userId: userId, win:0, draw:0, lose:0, gu: 0, choki:0, pa:0};
-      te[id] = -1;
-      if(!roomMember[roomId][0].userId){
-        roomMember[roomId][0] = {userId: userId, socketId: socket.id};
-      }else roomMember[roomId][1] = {userId: userId, socketId: socket.id};
-      console.log(roomId + "に" + username + "さんが参加しました。接続人数:" + countPeople[roomId]);
-      if(countPeople[roomId] == 2){
-        //janken_start
-        io.sockets.in(roomId).emit("janken_start");
-      }
+      promise.then(()=>{
+        userResult[id] = {userId: userId, win:0, draw:0, lose:0, gu: 0, choki:0, pa:0};
+        te[id] = -1;
+        if(!roomMember[roomId][0].userId){
+          roomMember[roomId][0] = {userId: userId, socketId: socket.id};
+        }else roomMember[roomId][1] = {userId: userId, socketId: socket.id};
+        console.log(roomId + "に" + username + "さんが参加しました。接続人数:" + countPeople[roomId]);
+        if(countPeople[roomId] == 2){
+          //janken_start
+          io.sockets.in(roomId).emit("janken_start");
+        }
+      });
   });
   socket.on('sendDataToOpponent_s', (data) => {
     console.log('sendDataToOpponent_s: '+data.username);
@@ -176,32 +181,37 @@ io.sockets.on('connection', function(socket){
   socket.on('disconnect', () => {
     te[id] = -1;
     socket.leave(roomId);
-    io.in(roomId).clients((error, clients) => {
-      if(error) throw error;
-      console.log(clients, clients.length);
-      countPeople[roomId] = clients.length;
-    });
-    if(roomMember[roomId][0].socketId === id) roomMember[roomId][0] = {userId: null, username: null, socketId: null};
-    else roomMember[roomId][1] = {userId: null, username: null, socketId: null};
-    console.log(username + "さんが" + roomId + "から退出しました。接続人数:" + countPeople[roomId]);
-    if(countPeople[roomId] < 0 || !countPeople[roomId]) countPeople[roomId]=0;
-    io.sockets.in(roomId).emit("message_to_client", {value:"対戦相手が退出しました"});
-    Result.findOne({
-      where: {userTwitterId: userId}
-      }
-    ).then((result) => {
-      Result.update({ 
-        win: result.win + userResult[id].win,
-        draw: result.draw + userResult[id].draw,
-        lose: result.lose + userResult[id].lose,
-        gu: result.gu + userResult[id].gu,
-        choki: result.choki + userResult[id].choki,
-        pa: result.pa + userResult[id].pa
-      }, { where: {userTwitterId: userId} }).then(()=>{
-        console.log("結果をアップデートしました")
+    let promise = new Promise((resolve, reject) => { // #1
+      io.in(roomId).clients((error, clients) => {
+        if(error) throw error;
+        console.log(clients, clients.length);
+        countPeople[roomId] = clients.length;
       });
+      resolve('disconnect')
     })
-    //result
+    promise.then(() => {
+      if(roomMember[roomId][0].socketId === id) roomMember[roomId][0] = {userId: null, username: null, socketId: null};
+      else roomMember[roomId][1] = {userId: null, username: null, socketId: null};
+      console.log(username + "さんが" + roomId + "から退出しました。接続人数:" + countPeople[roomId]);
+      if(countPeople[roomId] < 0 || !countPeople[roomId]) countPeople[roomId]=0;
+      io.sockets.in(roomId).emit("message_to_client", {value:"対戦相手が退出しました"});
+      Result.findOne({
+        where: {userTwitterId: userId}
+        }
+      ).then((result) => {
+        Result.update({ 
+          win: result.win + userResult[id].win,
+          draw: result.draw + userResult[id].draw,
+          lose: result.lose + userResult[id].lose,
+          gu: result.gu + userResult[id].gu,
+          choki: result.choki + userResult[id].choki,
+          pa: result.pa + userResult[id].pa
+        }, { where: {userTwitterId: userId} }).then(()=>{
+          console.log("結果をアップデートしました")
+        });
+      })
+    });
+ 
   });
 });
 
