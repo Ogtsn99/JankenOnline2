@@ -129,12 +129,14 @@ io.sockets.on('connection', function(socket){
       }
   });
   socket.on('sendDataToOpponent_s', (data) => {
+    console.log('sendDataToOpponent_s: '+data.username);
     opponentName = data.username;
     if(roomMember[roomId][0] === userId) opponentId = roomMember[roomId][1].socketId;
     else opponentId = roomMember[roomId][0].socketId;
     io.to(opponentId).emit('sendDataToOpponent_c', {opponentName: username});
   })
   socket.on('janken_to_server', (data) => {
+    console.log("janken_to_server")
     te[socket.id] = data.te;
     if(te[opponentId] != -1){
       console.log("ジャンケン可能");
@@ -157,7 +159,10 @@ io.sockets.on('connection', function(socket){
   })
   socket.on('disconnect', () => {
     te[id] = -1;
-    countPeople[roomId] = io.sockets.adapter.rooms[roomId].length || 0;
+    io.in(roomId).clients((error, clients) => {
+      if(error) throw error;
+      countPeople[roomId] = clients.length;
+    });
     console.log(username + "さんが" + roomId + "から退出しました。接続人数:" + countPeople[roomId]);
     if(countPeople[roomId] < 0 || !countPeople[roomId]) countPeople[roomId]=0;
     io.sockets.in(roomId).emit("message_to_client", {value:"対戦相手が退出しました"});
