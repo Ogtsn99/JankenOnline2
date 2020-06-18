@@ -101,7 +101,7 @@ var io = require('socket.io')(server);
 global.numToJanken = {0: "グー", 1: "チョキ", 2: "パー"};
 global.te = {}; //socketId: ユーザーの次の手
 global.countPeople = {}; //roomId: ルームにいるユーザーの数
-global.roomMember = {}; //roomId: ルームにいるユーザー1のID, ユーザー2のID
+global.roomMember = {}; //roomId: ルームにいるユーザー1のID(user, socket), ユーザー2のID(user, socket)
 global.userResult = {}; //userId: 勝ち, あいこ, 負け, gu, choki, pa
 
 for (let roomId = 0; roomId < 10000; roomId++) {
@@ -111,24 +111,58 @@ for (let roomId = 0; roomId < 10000; roomId++) {
 
 io.sockets.on('connection', function(socket){
   var roomId = "", username = "", userId = "", userNumber = 0, hand=-1, id = socket.id;
+  var opponentName, opponentId;
   console.log("connected");
   //socket処理
   socket.on('join',function(data){
-      roomId = data.roomId, username = data.username, userId = data.userId, userNumber = data.userNumber;
+      roomId = data.roomId, username = data.username, userId = data.userId;
       socket.join(roomId);
+      countPeople[roomId]++;
       te[id] = -1;
-      if(roomMember[roomId][0] = userId){
+      if(!roomMember[roomId][0].userId){
         roomMember[roomId][0] = {userId: userId, socketId: socket.id};
       }else roomMember[roomId][1] = {userId: userId, socketId: socket.id};
-      console.log(roomId + "に" + username + "さんが参加しました");
+      console.log(roomId + "に" + username + "さんが参加しました。接続人数:" + countPeople[roomId]);
+      if(countPeople[roomId] == 2){
+        //janken_start
+        io.sockets.in(roomId).emit("janken_start");
+      }
   });
+  socket.on('sendDataToOpponent_s', (data) => {
+    opponentName = data.username;
+    if(roomMember[roomId][0] === userId) opponentId = roomMember[roomId][1].socketId;
+    else opponentId = roomMember[roomId][0].socketId;
+    io.to(opponentId).emit('sendDataToOpponent_c', {opponentName: username});
+  })
+  socket.on('janken_to_server', (data) => {
+    te[socket.id] = data.te;
+    if(te[opponentId] != -1){
+      console.log("ジャンケン可能");
+      var te0 = parseInt(te[roomMember[roomId][0].socketId]), 
+      te1 = parseInt(te[roomMember[roomId][1]].socketId);
+      if(te1 === te0){
+        io.sockets.in(room).emit("result", {res:0});
+      }else if((te0+1)%3 === te1){//te0がかつ
+        io.to(roomMember[roomId][0].socketId).emit('result', {res: 1});
+        io.to(roomMember[roomId][1].socketId).emit('result', {res: -1});
+      }else{//te1がかつ
+        io.to(roomMember[roomId][1].socketId).emit('result', {res: 1});
+        io.to(roomMember[roomId][0].socketId).emit('result', {res: -1});
+      }
+      te[id] = -1;
+      te[opponentId] = -1;
+    }else{
+      console.log("相手の手を待っています")
+    }
+  })
   socket.on('disconnect', () => {
-      console.log(username + "さんが" + roomId + "から退出しました");
-      te[id] = -1; 
+      te[id] = -1;
       countPeople[roomId] -= 1;
-      if(countPeople[roomId] < 0) countPeople[roomId]=0;
+      console.log(username + "さんが" + roomId + "から退出しました。接続人数:" + countPeople[roomId]);
+      if(countPeople[roomId] < 0 || !countPeople[roomId]) countPeople[roomId]=0;
       io.sockets.in(roomId).emit("message_to_client", {value:"対戦相手が退出しました"});
   })
+
 });
 
 //module.exports = {userMap, roomMap};

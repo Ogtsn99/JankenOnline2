@@ -1,20 +1,43 @@
 extends layout
 block content
-  div.my-3
+  div(style="width: 90%; margin-left:auto; margin-right:auto; background-color: #bde9ba; text-align:center;").my-3
     script(type="text/javascript" src="/socket.io/socket.io.js")
     script(type='text/javascript').
       console.log("hello")
       console.log("roomId:" + #{roomId});
-      //ioはentry.jsにある
       const socket = io('http://localhost:8000');
-      //本番環境では#{username}, #{userId}に変える
-      /*socket.on("canjoin", (data) => {
-        if(!data.ok){
-
-        }
-      })*/
-      socket.emit("join", {roomId: #{roomId}, username: 'Taro', userId: '114514'});
-    p 次に出す手: 未設定
-    button#btnGu グー
-    button#btnPa チョキ
-    button#btnChoki パー
+      socket.emit("join", {roomId: #{roomId}, username: #{username}, userId: #{userId}});
+      socket.on("janken_start", (data) => {
+        socket.emit("sendDataToOpponent_s", {username: username})
+      });
+      socket.on("sendDataToOpponet_c", (data) => {
+        setOpponentName(data.opponentName);
+      });
+      socket.on("result", (data) => {
+        var res = data.result;
+        if(res == '1'){
+          console.log("カッタ");
+        }else if(res == '0'){
+          console.log("負けた")
+        }else console.log("あいこ")
+        /* 
+        未実装
+        勝ち、あいこ、負けの数を変える
+        */
+      })
+    div
+      div(style='float:left')
+        h2 ここにユーザーネームをいれる
+        p#nextTe 次に出す手: 未設定
+      div
+        h2#opponentName 対戦相手は不在です
+        p 相手の手: 未設定
+    br
+    div
+      button#btnGu グー
+      button#btnPa チョキ
+      button#btnChoki パー
+      p#winCounter 勝ち:0
+      p#drawCounter あいこ:0
+      p#loseCounter 負け:0
+      
