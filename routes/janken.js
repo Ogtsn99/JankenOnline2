@@ -24,12 +24,12 @@ router.get('/:roomId', (req, res) => {
                     res.send("部屋に入れませんでした。")
                 }else{
                     //roomMember[roomId][sz] = {userId: userId, username: username, socketId: null};
-                    res.render('janken', {roomId: roomId, username: username, userId: userId});
+                    res.render('janken', {roomId: roomId, username: username, userId: userId, user: req.user});
                 }
             }else if(sz === 0){
                 roomMember[roomId][0] = {userId: null, username: null, socketId: null};
                 roomMember[roomId][1] = {userId: null, username: null, socketId: null};
-                res.render('janken', {roomId: roomId, username: username, userId: userId});
+                res.render('janken', {roomId: roomId, username: username, userId: userId, user: req.user});
             }else{
                 res.send("部屋に入れませんでした。人数がいっぱい、もしくは更新中です。")
             }

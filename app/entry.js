@@ -6,7 +6,6 @@ global.jQuery = $;
 //import io from 'socket.io-client';
 import io, { Socket } from 'socket.io-client';
 
-var start = false;
 var btnGu = $('#btnGu');
 var btnPa = $('#btnPa');
 var btnChoki = $('#btnChoki');
@@ -14,6 +13,7 @@ var opponentName = $('#opponentName');
 var nextTe = $('#nextTe');
 
 btnGu.click(()=>{
+    console.log("グーボタンを押しました")
     socket.emit("janken_to_server", {te: 0});
     nextTe.text("次に出す手: グー")
 })

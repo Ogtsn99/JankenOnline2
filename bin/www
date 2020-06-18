@@ -156,11 +156,11 @@ io.sockets.on('connection', function(socket){
     }
   })
   socket.on('disconnect', () => {
-      te[id] = -1;
-      countPeople[roomId] -= 1;
-      console.log(username + "さんが" + roomId + "から退出しました。接続人数:" + countPeople[roomId]);
-      if(countPeople[roomId] < 0 || !countPeople[roomId]) countPeople[roomId]=0;
-      io.sockets.in(roomId).emit("message_to_client", {value:"対戦相手が退出しました"});
+    te[id] = -1;
+    countPeople[roomId] = io.sockets.adapter.rooms[roomId].length || 0;
+    console.log(username + "さんが" + roomId + "から退出しました。接続人数:" + countPeople[roomId]);
+    if(countPeople[roomId] < 0 || !countPeople[roomId]) countPeople[roomId]=0;
+    io.sockets.in(roomId).emit("message_to_client", {value:"対戦相手が退出しました"});
   })
 
 });

@@ -8,7 +8,7 @@ block content
       var socket = io.connect();
       socket.emit("join", {roomId: "#{roomId}", username: "#{username}", userId: "#{userId}"});
       socket.on("janken_start", (data) => {
-        socket.emit("sendDataToOpponent_s", {username: username})
+        socket.emit("sendDataToOpponent_s", {username: "#{username}"})
       });
       socket.on("sendDataToOpponet_c", (data) => {
         setOpponentName(data.opponentName);
