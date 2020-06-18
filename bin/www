@@ -117,17 +117,17 @@ for (let roomId = 0; roomId < 10000; roomId++) {
 
 io.sockets.on('connection', function(socket){
   var roomId = "", username = "", userId = "", id = socket.id;
-  var opponentName, opponentId;
+  var opponentName = null, opponentId = null;
   console.log("connected");
   //socket処理
   socket.on('join',function(data){
       roomId = data.roomId, username = data.username, userId = data.userId;
+      socket.join(roomId);
       io.in(roomId).clients((error, clients) => {
         if(error) throw error;
-        console.log(clients);
+        console.log(clients, clients.length);
         countPeople[roomId] = clients.length + 1;
       });
-      socket.join(roomId);
       userResult[id] = {userId: userId, win:0, draw:0, lose:0, gu: 0, choki:0, pa:0};
       te[id] = -1;
       if(!roomMember[roomId][0].userId){
@@ -149,7 +149,7 @@ io.sockets.on('connection', function(socket){
   socket.on('janken_to_server', (data) => {
     console.log("janken_to_server")
     te[socket.id] = data.te;
-    if(te[opponentId] != -1 && te[id] != -1){
+    if(opponentId && te[opponentId] != -1 && te[id] != -1){
       console.log("ジャンケン可能");
       var id0 = roomMember[roomId][0].socketId, id1 = te[roomMember[roomId][1].socketId];
       var te0 = parseInt(id0), 
@@ -175,9 +175,10 @@ io.sockets.on('connection', function(socket){
   })
   socket.on('disconnect', () => {
     te[id] = -1;
+    socket.leave(roomId);
     io.in(roomId).clients((error, clients) => {
       if(error) throw error;
-      console.log(clients);
+      console.log(clients, clients.length);
       countPeople[roomId] = clients.length - 1;
     });
     if(roomMember[roomId][0].socketId === id) roomMember[roomId][0] = {userId: null, username: null, socketId: null};

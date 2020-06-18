@@ -27,7 +27,7 @@ btnChoki.click(()=>{
 })
 
 var win=0, draw = 0, lose=0;
-function winIncriment(){
+function winIncrement(){
     win++;
     $('#winCounter').text("勝ち: " + win);
 }
