@@ -126,7 +126,7 @@ io.sockets.on('connection', function(socket){
       io.in(roomId).clients((error, clients) => {
         if(error) throw error;
         console.log(clients, clients.length);
-        countPeople[roomId] = clients.length + 1;
+        countPeople[roomId] = clients.length;
       });
       userResult[id] = {userId: userId, win:0, draw:0, lose:0, gu: 0, choki:0, pa:0};
       te[id] = -1;
@@ -179,7 +179,7 @@ io.sockets.on('connection', function(socket){
     io.in(roomId).clients((error, clients) => {
       if(error) throw error;
       console.log(clients, clients.length);
-      countPeople[roomId] = clients.length - 1;
+      countPeople[roomId] = clients.length;
     });
     if(roomMember[roomId][0].socketId === id) roomMember[roomId][0] = {userId: null, username: null, socketId: null};
     else roomMember[roomId][1] = {userId: null, username: null, socketId: null};
@@ -198,8 +198,7 @@ io.sockets.on('connection', function(socket){
         choki: result.choki + userResult[id].choki,
         pa: result.pa + userResult[id].pa
       }, { where: {userTwitterId: userId} }).then(()=>{
-        console.log("変更! id:" + userId + "のユーザーネームを" + req.body.name)
-        res.redirect('/users/' + userId);
+        console.log("結果をアップデートしました")
       });
     })
     //result
