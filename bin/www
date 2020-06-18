@@ -94,6 +94,7 @@ function onListening() {
 var express = require('express');
 var router = express.Router();
 const User = require('../models/user');
+const Result = require('../models/result');
 const { count } = require('console');
 
 var io = require('socket.io')(server);
@@ -102,22 +103,31 @@ global.numToJanken = {0: "グー", 1: "チョキ", 2: "パー"};
 global.te = {}; //socketId: ユーザーの次の手
 global.countPeople = {}; //roomId: ルームにいるユーザーの数
 global.roomMember = {}; //roomId: ルームにいるユーザー1のID(user, socket), ユーザー2のID(user, socket)
-global.userResult = {}; //userId: 勝ち, あいこ, 負け, gu, choki, pa
+global.userResult = {}; //socketid: userId, 勝ち, あいこ, 負け, gu, choki, pa
 
+function gcpUpdate(id, te) {
+  if(te === 0) userResult[id].gu += 1;
+  if(te === 1) userResult[id].choki += 1;
+  if(te === 2) userResult[id].pa += 1;
+}
 for (let roomId = 0; roomId < 10000; roomId++) {
   countPeople[roomId.toString()] = 0;
   roomMember[roomId.toString()] = [null, null];
 }
 
 io.sockets.on('connection', function(socket){
-  var roomId = "", username = "", userId = "", userNumber = 0, hand=-1, id = socket.id;
+  var roomId = "", username = "", userId = "", id = socket.id;
   var opponentName, opponentId;
   console.log("connected");
   //socket処理
   socket.on('join',function(data){
       roomId = data.roomId, username = data.username, userId = data.userId;
       socket.join(roomId);
-      countPeople[roomId]++;
+      io.in(roomId).clients((error, clients) => {
+        if(error) throw error;
+        countPeople[roomId] = clients.length;
+      });
+      userResult[id] = {userId: userId, win:0, draw:0, lose:0, gu: 0, choki:0, pa:0};
       te[id] = -1;
       if(!roomMember[roomId][0].userId){
         roomMember[roomId][0] = {userId: userId, socketId: socket.id};
@@ -138,18 +148,23 @@ io.sockets.on('connection', function(socket){
   socket.on('janken_to_server', (data) => {
     console.log("janken_to_server")
     te[socket.id] = data.te;
-    if(te[opponentId] != -1){
+    if(te[opponentId] != -1 && te[id] != -1){
       console.log("ジャンケン可能");
-      var te0 = parseInt(te[roomMember[roomId][0].socketId]), 
-      te1 = parseInt(te[roomMember[roomId][1]].socketId);
+      var id0 = roomMember[roomId][0].socketId, id1 = te[roomMember[roomId][1].socketId];
+      var te0 = parseInt(id0), 
+      te1 = parseInt(id1);
+      gcpUpdate(id0, te0);
+      gcpUpdate(id1, te1);
       if(te1 === te0){
+        userResult[id0].draw += 1;
+        userResult[id1].draw += 1;
         io.sockets.in(room).emit("result", {res:0});
       }else if((te0+1)%3 === te1){//te0がかつ
-        io.to(roomMember[roomId][0].socketId).emit('result', {res: 1});
-        io.to(roomMember[roomId][1].socketId).emit('result', {res: -1});
+        io.to(id0).emit('result', {res: 1});
+        io.to(id1).emit('result', {res: -1});
       }else{//te1がかつ
-        io.to(roomMember[roomId][1].socketId).emit('result', {res: 1});
-        io.to(roomMember[roomId][0].socketId).emit('result', {res: -1});
+        io.to(id1).emit('result', {res: 1});
+        io.to(id0).emit('result', {res: -1});
       }
       te[id] = -1;
       te[opponentId] = -1;
@@ -168,8 +183,25 @@ io.sockets.on('connection', function(socket){
     console.log(username + "さんが" + roomId + "から退出しました。接続人数:" + countPeople[roomId]);
     if(countPeople[roomId] < 0 || !countPeople[roomId]) countPeople[roomId]=0;
     io.sockets.in(roomId).emit("message_to_client", {value:"対戦相手が退出しました"});
-  })
-
+    Result.findOne({where: {userTwitterId: roomMember[id].userId}})
+    Result.findOne({
+      where: {userTwitterId: userId}
+      }
+    ).then((result) => {
+      Result.update({ 
+        win: result.win + userResult[id].win,
+        draw: result.draw + userResult[id].draw,
+        lose: result.lose + userResult[id].lose,
+        gu: result.gu + userResult[id].gu,
+        choki: result.choki + userResult[id].choki,
+        pa: result.pa + userResult[id].pa
+      }, { where: {userTwitterId: userId} }).then(()=>{
+        console.log("変更! id:" + userId + "のユーザーネームを" + req.body.name)
+        res.redirect('/users/' + userId);
+      });
+    })
+    //result
+  });
 });
 
 //module.exports = {userMap, roomMap};

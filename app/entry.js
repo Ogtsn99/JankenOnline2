@@ -26,6 +26,22 @@ btnChoki.click(()=>{
     nextTe.text("次に出す手: パー")
 })
 
+var win=0, draw = 0, lose=0;
+function winIncriment(){
+    win++;
+    $('#winCounter').text("勝ち: " + win);
+}
+
+function drawIncrement() {
+    draw++;
+    $('#drawCounter').text("あいこ: " + draw);
+}
+
+function loseIncrement() {
+    lose++;
+    $('#loseCounter').text("負け: " + lose);
+}
+
 //対戦開始、相手の情報(名前)を受け取る
 function setOpponentName(name){
     opponentName.text(name);

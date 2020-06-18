@@ -16,14 +16,15 @@ block content
       socket.on("result", (data) => {
         var res = data.result;
         if(res == '1'){
-          console.log("カッタ");
+          console.log("勝った");
+          winIncriment();
         }else if(res == '0'){
           console.log("負けた")
-        }else console.log("あいこ")
-        /* 
-        未実装
-        勝ち、あいこ、負けの数を変える
-        */
+          loseIncrement();
+        }else {
+          console.log("あいこ");
+          drawIncrement();
+        }
       })
     div
       div(style='float:left')
