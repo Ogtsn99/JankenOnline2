@@ -161,8 +161,10 @@ io.sockets.on('connection', function(socket){
     te[id] = -1;
     io.in(roomId).clients((error, clients) => {
       if(error) throw error;
-      countPeople[roomId] = clients.length;
+      countPeople[roomId] = clients.length - 1;
     });
+    if(roomMember[roomId][0].socketId === id) roomMember[roomId][0] = {userId: null, username: null, socketId: null};
+    else roomMember[roomId][1] = {userId: null, username: null, socketId: null};
     console.log(username + "さんが" + roomId + "から退出しました。接続人数:" + countPeople[roomId]);
     if(countPeople[roomId] < 0 || !countPeople[roomId]) countPeople[roomId]=0;
     io.sockets.in(roomId).emit("message_to_client", {value:"対戦相手が退出しました"});
