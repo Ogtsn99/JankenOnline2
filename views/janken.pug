@@ -92,7 +92,7 @@ block content
           console.log("メッセージを送ります");
           var msg = document.getElementById("input_message").value;
           console.log(msg);
-          socket.emit('message_to_server', {msg: msg});
+          socket.emit('message_to_server', {msg: "[#{username}] " + msg});
       }
     div
       div(style='float:left')

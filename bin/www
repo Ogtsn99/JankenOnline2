@@ -117,6 +117,7 @@ for (let roomId = 0; roomId < 10000; roomId++) {
 
 io.sockets.on('connection', function(socket){
   var roomId = "", username = "", userId = "", id = socket.id;
+  te[id] = -1;
   var opponentName = null, opponentId = null;
   console.log("connected");
   //socket処理
@@ -133,7 +134,6 @@ io.sockets.on('connection', function(socket){
       });
       promise.then(()=>{
         userResult[id] = {userId: userId, win:0, draw:0, lose:0, gu: 0, choki:0, pa:0};
-        te[id] = -1;
         if(!roomMember[roomId][0].userId){
           roomMember[roomId][0] = {userId: userId, socketId: socket.id};
         }else roomMember[roomId][1] = {userId: userId, socketId: socket.id};
@@ -165,6 +165,7 @@ io.sockets.on('connection', function(socket){
       console.log("ジャンケン可能");
       var id0 = roomMember[roomId][0].socketId, id1 = roomMember[roomId][1].socketId;
       var te0 = parseInt(te[id0]), te1 = parseInt(te[id1]);
+      console.log(te0, te1);
       gcpUpdate(id0, te0);
       gcpUpdate(id1, te1);
       var stringTe0 = numToJanken[te0], stringTe1 = numToJanken[te1];
