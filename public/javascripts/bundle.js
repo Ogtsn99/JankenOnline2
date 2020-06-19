@@ -124,7 +124,26 @@ btnChoki.click(function () {
     te: 2
   });
   nextTe.text("次に出す手: パー");
-}); //対戦開始、相手の情報(名前)を受け取る
+});
+var win = 0,
+    draw = 0,
+    lose = 0;
+
+function winIncrement() {
+  win++;
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#winCounter').text("勝ち: " + win);
+}
+
+function drawIncrement() {
+  draw++;
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#drawCounter').text("あいこ: " + draw);
+}
+
+function loseIncrement() {
+  lose++;
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#loseCounter').text("負け: " + lose);
+} //対戦開始、相手の情報(名前)を受け取る
+
 
 function setOpponentName(name) {
   opponentName.text(name);

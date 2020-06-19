@@ -13,15 +13,18 @@ var opponentName = $('#opponentName');
 var nextTe = $('#nextTe');
 
 btnGu.click(()=>{
+
     console.log("グーボタンを押しました")
     socket.emit("janken_to_server", {te: 0});
     nextTe.text("次に出す手: グー")
 })
 btnPa.click(()=>{
+
     socket.emit("janken_to_server", {te: 1});
     nextTe.text("次に出す手: チョキ")
 })
 btnChoki.click(()=>{
+
     socket.emit("janken_to_server", {te: 2});
     nextTe.text("次に出す手: パー")
 })
