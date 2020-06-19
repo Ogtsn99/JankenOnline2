@@ -56,38 +56,38 @@ block content
           var msg = $("#msgForm").val();
           socket.emit('message_to_server', {msg: msg});
         }
-      })
-      socket.emit("join", {roomId: "#{roomId}", username: "#{username}", userId: "#{userId}"});
-      socket.on("janken_start", (data) => {
-        appendMsg("対戦相手が現れました")
-        socket.emit("sendDataToOpponent_s", {username: "#{username}"})
-      });
-      socket.on("sendDataToOpponet_c", (data) => {
-        console.log("opponent data is received!" + data.opponentName);
-        setOpponentName(data.opponentName);
-      });
-      socket.on("result", (data) => {
-        var res = data.result;
-        if(res == '1'){
-          console.log("勝った");
-          appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo + "を出しました")
-          appendMsg("Win!")
-          winIncrement();
-        }else if(res == '0'){
-          console.log("負けた")
-          appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo + "を出しました")
-          appendMsg("Lose!")
-          loseIncrement();
-        }else {
-          console.log("あいこ");
-          appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo + "を出しました")
-          appendMsg("draw!")
-          drawIncrement();
-        }
-      })
-      socket.on("message_to_client", (data) => {
-        //XSS脆弱性を対策する
-        appendMsg(data.msg);
+        socket.emit("join", {roomId: "#{roomId}", username: "#{username}", userId: "#{userId}"});
+        socket.on("janken_start", (data) => {
+          appendMsg("対戦相手が現れました")
+          socket.emit("sendDataToOpponent_s", {username: "#{username}"})
+        });
+        socket.on("sendDataToOpponet_c", (data) => {
+          console.log("opponent data is received!" + data.opponentName);
+          setOpponentName(data.opponentName);
+        });
+        socket.on("result", (data) => {
+          var res = data.result;
+          if(res == '1'){
+            console.log("勝った");
+            appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo + "を出しました")
+            appendMsg("Win!")
+            winIncrement();
+          }else if(res == '0'){
+            console.log("負けた")
+            appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo + "を出しました")
+            appendMsg("Lose!")
+            loseIncrement();
+          }else {
+            console.log("あいこ");
+            appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo + "を出しました")
+            appendMsg("draw!")
+            drawIncrement();
+          }
+        })
+        socket.on("message_to_client", (data) => {
+          //XSS脆弱性を対策する
+          appendMsg(data.msg);
+        })
       })
     div
       div(style='float:left')
