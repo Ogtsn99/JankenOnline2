@@ -47,11 +47,11 @@ block content
           $("#chatLogs").append("<div>" + message + "</div>");
           $('#chatLogs').animate({scrollTop: $('#chatLogs')[0].scrollHeight}, 'fast');
         }
-        $("msgform").submit(function(e){
+        /*$("msgform").submit(function(e){
           var msg = $("#msgForm").val();
           socket.emit('message_to_server', {msg: msg});
           e.preventDefault();
-        });
+        });*/
         socket.emit("join", {roomId: "#{roomId}", username: "#{username}", userId: "#{userId}"});
         socket.on("janken_start", (data) => {
           appendMsg("対戦相手が現れました")
@@ -59,7 +59,7 @@ block content
         });
         socket.on("sendDataToOpponent_c", (data) => {
           console.log("opponent data is received!" + data.opponentName);
-          setOpponentName(data.opponentName);
+          if(data.opponentName != "#{username}") setOpponentName(data.opponentName);
         });
         socket.on("result", (data) => {
           var res = data.result;
@@ -81,12 +81,16 @@ block content
           }
         })
         socket.on("message_to_client", (data) => {
+          console.log("メッセージを受け取りました")
+          console.log(data.msg)
           //XSS脆弱性を対策する
           appendMsg(data.msg);
         })
       })
       function submitMsg(){
+          console.log("メッセージを送ります");
           var msg = document.getElementById("input_message").value;
+          console.log(msg);
           socket.emit('message_to_server', {msg: msg});
       }
     div
