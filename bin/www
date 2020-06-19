@@ -161,13 +161,16 @@ io.sockets.on('connection', function(socket){
   socket.on('janken_to_server', (data) => {
     console.log("janken_to_server" + data.te);
     te[id] = data.te;
-    if(opponentId && parseInt(te[id0]) != -1 && parseInt(te[id1]) != -1){
+    if( (parseInt(te[id0]) != -1) && (parseInt(te[id1]) != -1) ){
       console.log("ジャンケン可能" + opponentId);
       var id0 = roomMember[roomId][0].socketId, id1 = roomMember[roomId][1].socketId;
       var te0 = parseInt(te[id0]), te1 = parseInt(te[id1]);
       console.log(te0, te1);
       gcpUpdate(id0, te0);
       gcpUpdate(id1, te1);
+      console.log("te0のタイプ:", typeof(te0), "te1のタイプ:", typeof(te1));
+      console.log("te1 ==== te0", te1 === te0, "parseInt(te[id0]) != -1:", parseInt(te[id0]) != -1);
+      console.log("parseInt(te[id1]) != -1", parseInt(te[id1]) != -1);
       var stringTe0 = numToJanken[te0], stringTe1 = numToJanken[te1];
       if(te1 === te0){
         console.log("あいこ")
