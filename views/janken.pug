@@ -1,6 +1,6 @@
 extends layout
 block content
-  div(style="width: 90%; margin-left:auto; margin-right:auto; background-color: #bde9ba; text-align:center;").my-3
+  div(style="width: 90%; margin-left:auto; margin-right:auto; text-align:center;").my-3
     script(type="text/javascript" src="/socket.io/socket.io.js")
     script(type='text/javascript').
       console.log("hello")
@@ -8,6 +8,7 @@ block content
       var socket = io.connect();
       socket.emit("join", {roomId: "#{roomId}", username: "#{username}", userId: "#{userId}"});
       socket.on("janken_start", (data) => {
+        appendMsg("対戦相手が現れました")
         socket.emit("sendDataToOpponent_s", {username: "#{username}"})
       });
       socket.on("sendDataToOpponet_c", (data) => {
@@ -18,12 +19,18 @@ block content
         var res = data.result;
         if(res == '1'){
           console.log("勝った");
+          appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo を出しました)
+          appendMsg("Win!")
           winIncrement();
         }else if(res == '0'){
           console.log("負けた")
+          appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo を出しました)
+          appendMsg("Lose!")
           loseIncrement();
         }else {
           console.log("あいこ");
+          appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo を出しました)
+          appendMsg("draw!")
           drawIncrement();
         }
       })
@@ -38,6 +45,7 @@ block content
       $("form").submit(function(e){
         var msg = $("#msgForm").val();
         socket.emit('message_to_server', {msg: msg});
+        e.preventDefault();
       }
     div
       div(style='float:left')

@@ -164,16 +164,17 @@ io.sockets.on('connection', function(socket){
       te1 = parseInt(id1);
       gcpUpdate(id0, te0);
       gcpUpdate(id1, te1);
+      var stringTe0 = numToJanken(te0), stringTe1 = numToJanken(te1);
       if(te1 === te0){
         userResult[id0].draw += 1;
         userResult[id1].draw += 1;
-        io.sockets.in(room).emit("result", {res:0, you: te0, oppo: te1});
+        io.sockets.in(room).emit("result", {res:0, you: stringTe0, oppo: stringTe1});
       }else if((te0+1)%3 === te1){//te0がかつ
-        io.to(id0).emit('result', {res: 1, you: te0, oppo: te1});
-        io.to(id1).emit('result', {res: -1, you: te1, oppo: te0});
+        io.to(id0).emit('result', {res: 1, you: stringTe0, oppo: stringTe1});
+        io.to(id1).emit('result', {res: -1, you: stringTe1, oppo: stringTe0});
       }else{//te1がかつ
-        io.to(id1).emit('result', {res: 1, you: te1, oppo : te0});
-        io.to(id0).emit('result', {res: -1, you: te0, oppo: te1});
+        io.to(id1).emit('result', {res: 1, you: stringTe1, oppo : stringTe0});
+        io.to(id0).emit('result', {res: -1, you: stringTe0, oppo: stringTe1});
       }
       te[id] = -1;
       te[opponentId] = -1;
