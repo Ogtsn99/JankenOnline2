@@ -168,7 +168,7 @@ io.sockets.on('connection', function(socket){
       te1 = parseInt(id1);
       gcpUpdate(id0, te0);
       gcpUpdate(id1, te1);
-      var stringTe0 = numToJanken(te0), stringTe1 = numToJanken(te1);
+      var stringTe0 = numToJanken[te0], stringTe1 = numToJanken[te1];
       if(te1 === te0){
         userResult[id0].draw += 1;
         userResult[id1].draw += 1;

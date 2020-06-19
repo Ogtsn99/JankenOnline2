@@ -19,12 +19,12 @@ block content
           nextTe.text("次に出す手: グー")
         })
         $('#btnPa').click(()=>{
-        socket.emit("janken_to_server", {te: 1});
-        nextTe.text("次に出す手: チョキ")
+          socket.emit("janken_to_server", {te: 1});
+          nextTe.text("次に出す手: チョキ")
         })
         btnChoki.click(()=>{
-        socket.emit("janken_to_server", {te: 2});
-        nextTe.text("次に出す手: パー")
+          socket.emit("janken_to_server", {te: 2});
+          nextTe.text("次に出す手: パー")
         })
           //対戦開始、相手の情報(名前)を受け取る
         function setOpponentName(name){
@@ -79,6 +79,7 @@ block content
             appendMsg("draw!")
             drawIncrement();
           }
+          nextTe.text("次に出す手: 未設定")
         })
         socket.on("message_to_client", (data) => {
           console.log("メッセージを受け取りました")
