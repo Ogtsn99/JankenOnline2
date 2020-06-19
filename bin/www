@@ -162,6 +162,7 @@ io.sockets.on('connection', function(socket){
     console.log("janken_to_server" + data.te);
     te[id] = data.te;
     if( (parseInt(te[id0]) != -1) && (parseInt(te[id1]) != -1) ){
+      console.log((parseInt(te[id0]) != -1) && (parseInt(te[id1]) != -1));
       console.log("ジャンケン可能" + opponentId);
       var id0 = roomMember[roomId][0].socketId, id1 = roomMember[roomId][1].socketId;
       var te0 = parseInt(te[id0]), te1 = parseInt(te[id1]);
