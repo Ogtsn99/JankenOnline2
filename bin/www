@@ -189,7 +189,7 @@ io.sockets.on('connection', function(socket){
         }else{//te1がかつ
           console.log("te1がかつ")
           userResult[id1].win += 1;
-          userResult[id1].lose += 1;
+          userResult[id0].lose += 1;
           io.to(id1).emit('janken_result', {res: 1, you: stringTe1, oppo : stringTe0});
           io.to(id0).emit('janken_result', {res: -1, you: stringTe0, oppo: stringTe1});
         }
