@@ -112,7 +112,7 @@ function gcpUpdate(id, te) {
 }
 for (let roomId = 0; roomId < 10000; roomId++) {
   countPeople[roomId.toString()] = 0;
-  roomMember[roomId.toString()] = [null, null];
+  roomMember[roomId.toString()] = [{userId:null, username:null, socketId: null}, {userId:null, username:null, socketId: null}];
 }
 
 io.sockets.on('connection', function(socket){
@@ -135,8 +135,8 @@ io.sockets.on('connection', function(socket){
       promise.then(()=>{
         userResult[id] = {userId: userId, win:0, draw:0, lose:0, gu: 0, choki:0, pa:0};
         if(!roomMember[roomId][0].userId){
-          roomMember[roomId][0] = {userId: userId, socketId: socket.id};
-        }else roomMember[roomId][1] = {userId: userId, socketId: socket.id};
+          roomMember[roomId][0] = {userId: userId, username:username, socketId: socket.id};
+        }else roomMember[roomId][1] = {userId: userId, username: username, socketId: socket.id};
         console.log(roomId + "に" + username + "さんが参加しました。接続人数:" + countPeople[roomId]);
         console.log('socketId is ' + socket.id)
         if(countPeople[roomId] == 2){
