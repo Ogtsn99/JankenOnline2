@@ -151,7 +151,7 @@ io.sockets.on('connection', function(socket){
   socket.on('sendDataToOpponent_s', (data) => {
     console.log('sendDataToOpponent_s: '+data.username);
     opponentName = data.username;
-    io.to(opponentId).emit('sendDataToOpponent_c', {opponentName: username});
+    io.sockets.in(roomId).emit("sendDataToOpponent_c", {opponentName: username});
   })
   socket.on('janken_to_server', (data) => {
     console.log("janken_to_server" + data.te);
