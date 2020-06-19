@@ -61,24 +61,24 @@ block content
           console.log("opponent data is received!" + data.opponentName);
           if(data.opponentName != "#{username}") setOpponentName(data.opponentName);
         });
-        socket.on("result", (data) => {
+        socket.on("janken_result", (data) => {
           var res = data.result;
-          console.log(res);
+          console.log(res, data);
           if(res == '1' || res == 1){
             console.log("勝った");
             appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo + "を出しました")
             appendMsg("Win!")
             winIncrement();
           }else if(res == '0' || res == 0){
-            console.log("負けた")
-            appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo + "を出しました")
-            appendMsg("Lose!")
-            loseIncrement();
-          }else {
             console.log("あいこ");
             appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo + "を出しました")
             appendMsg("draw!")
             drawIncrement();
+          }else {
+            console.log("負けた")
+            appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo + "を出しました")
+            appendMsg("Lose!")
+            loseIncrement();
           }
           nextTe.text("次に出す手: 未設定")
         })
