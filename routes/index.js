@@ -3,15 +3,26 @@ var router = express.Router();
 const User = require('../models/user');
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  if(req.user){
-    User.findOne({
-      where: {userTwitterId: req.user.id.toString()}
-    }).then( (user) =>{
-      res.render('index', { title: 'Express', user: user});
-    })
-  }else{
-      res.render('index', { title: 'Express'});
-  }
+  var roomMemberNumArray = new Array(10);
+  let promise = new Promise((resolve, reject) => { // #1
+    for (let roomId = 1; roomId <= 10; roomId++) {
+      io.in(roomId.toString()).clients((error, clients) => {
+        if(error) throw error;
+        roomMemberNumArray[roomId-1] = {roomName: roomId.toString(), number: clients.length};
+      });
+    }
+  });
+  promise.then(() => {
+    if(req.user){
+      User.findOne({
+        where: {userTwitterId: req.user.id.toString()}
+      }).then( (user) =>{
+        res.render('index', {user: user, roomMemberNumArray: roomMemberNumArray});
+      })
+    }else{
+        res.render('index', {roomMemberNumArray: roomMemberNumArray});
+    }
+  })
 });
 
 router.post('/moveToRoom', (req, res, next) => {

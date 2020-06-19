@@ -11,4 +11,13 @@ block content
         input(type="tel" name="key" minlength="4" maxlength="4" size="10" required).form-static
       div
         button(type="submit").btn.btn-info 部屋に移動
-    button(href="/").btn-outline-success 部屋1
+  h3.my-3 ルーム状況
+    table.table
+      tr
+        th ルーム
+        th 人数
+      each roomData in roomMemberNumArray
+        tr
+          td
+            button(href="/janken/#{roomData.roomName}").btn-outline-success 部屋#{roomData.roomName}
+          td #{roomData.number}/2

@@ -97,7 +97,7 @@ const User = require('../models/user');
 const Result = require('../models/result');
 const { count } = require('console');
 
-var io = require('socket.io')(server);
+global.io = require('socket.io')(server);
 
 global.numToJanken = {0: "グー", 1: "チョキ", 2: "パー"};
 global.te = {}; //socketId: ユーザーの次の手
