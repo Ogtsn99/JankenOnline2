@@ -96,8 +96,69 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var global = Function('return this;')();
-global.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a; //import io from 'socket.io-client';
-//import io, { socket } from 'socket.io-client';
+global.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0___default.a;
+var btnGu = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#btnGu');
+var btnPa = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#btnPa');
+var btnChoki = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#btnChoki');
+var opponentName = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#opponentName');
+var nextTe = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#nextTe');
+btnGu.click(function () {
+  console.log("グーボタンを押しました");
+  socket.emit("janken_to_server", {
+    te: 0
+  });
+  nextTe.text("次に出す手: グー");
+});
+btnPa.click(function () {
+  socket.emit("janken_to_server", {
+    te: 1
+  });
+  nextTe.text("次に出す手: チョキ");
+});
+btnChoki.click(function () {
+  socket.emit("janken_to_server", {
+    te: 2
+  });
+  nextTe.text("次に出す手: パー");
+});
+var win = 0,
+    draw = 0,
+    lose = 0;
+
+function winIncrement() {
+  win++;
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#winCounter').text("勝ち: " + win);
+}
+
+function drawIncrement() {
+  draw++;
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#drawCounter').text("あいこ: " + draw);
+}
+
+function loseIncrement() {
+  lose++;
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#loseCounter').text("負け: " + lose);
+} //対戦開始、相手の情報(名前)を受け取る
+
+
+function setOpponentName(name) {
+  opponentName.text(name);
+}
+
+function appendMsg(message) {
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()("#chatLogs").append("<div>" + message + "</div>");
+  jquery__WEBPACK_IMPORTED_MODULE_0___default()('#chatLogs').animate({
+    scrollTop: jquery__WEBPACK_IMPORTED_MODULE_0___default()('#chatLogs')[0].scrollHeight
+  }, 'fast');
+}
+
+jquery__WEBPACK_IMPORTED_MODULE_0___default()("msgform").submit(function (e) {
+  var msg = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#msgForm").val();
+  socket.emit('message_to_server', {
+    msg: msg
+  });
+  e.preventDefault();
+});
 
 /***/ }),
 /* 1 */
