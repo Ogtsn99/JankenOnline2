@@ -174,7 +174,6 @@ io.sockets.on('connection', function(socket){
         console.log("parseInt(te[id0]) != -1:", parseInt(te[id0]) != -1, "parseInt(te[id1]) != -1", parseInt(te[id1]) != -1
         , "((parseInt(te[id0]) != -1) && (parseInt(te[id1]) != -1))", ((parseInt(te[id0]) != -1) && (parseInt(te[id1]) != -1))
         );
-
         var stringTe0 = numToJanken[te0], stringTe1 = numToJanken[te1];
         if(te1 === te0){
           console.log("あいこ")
@@ -194,8 +193,8 @@ io.sockets.on('connection', function(socket){
           io.to(id1).emit('janken_result', {res: 1, you: stringTe1, oppo : stringTe0});
           io.to(id0).emit('janken_result', {res: -1, you: stringTe0, oppo: stringTe1});
         }
-        te[id] = -1;
-        te[opponentId] = -1;
+        te[id0] = -1;
+        te[id1] = -1;
       }else{
         console.log("相手の手を待っています")
       }
