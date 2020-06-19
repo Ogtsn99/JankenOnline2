@@ -155,7 +155,7 @@ io.sockets.on('connection', function(socket){
     io.to(opponentId).emit('sendDataToOpponent_c', {opponentName: username});
   })
   socket.on('janken_to_server', (data) => {
-    console.log("janken_to_server")
+    console.log("janken_to_server" + data.te);
     te[socket.id] = data.te;
     if(opponentId && te[opponentId] != -1 && te[id] != -1){
       console.log("ジャンケン可能");
