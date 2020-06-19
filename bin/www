@@ -128,9 +128,6 @@ io.sockets.on('connection', function(socket){
           if(error) throw error;
           console.log(clients, clients.length);
           countPeople[roomId] = clients.length;
-          for (let index = 0; index < clients.length; index++) {
-            if(socket.id != clients[index]) opponentId = clients[index]
-          }
         });
         resolve("ok")
       });
@@ -155,11 +152,15 @@ io.sockets.on('connection', function(socket){
   socket.on('sendDataToOpponent_s', (data) => {
     console.log('sendDataToOpponent_s: '+data.username);
     opponentName = data.username;
+    console.log(id + ' ' + roomMember[roomId][0].socketId + ' ' + roomMember[roomId][1].socketId);
+    if(roomMember[roomId][0].socketId != opponentId)
+    opponentId = roomMember[roomId][0].socketId;
+    else opponentId = roomMember[roomId][1].socketId;
     io.sockets.in(roomId).emit("sendDataToOpponent_c", {opponentName: username});
   })
   socket.on('janken_to_server', (data) => {
     console.log("janken_to_server" + data.te);
-    te[socket.id] = data.te;
+    te[id] = data.te;
     if(opponentId && te[opponentId] != -1 && te[id] != -1){
       console.log("ジャンケン可能");
       var id0 = roomMember[roomId][0].socketId, id1 = roomMember[roomId][1].socketId;
