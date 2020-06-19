@@ -3,41 +3,6 @@ block content
   div(style="width: 90%; margin-left:auto; margin-right:auto; text-align:center;").my-3
     script(type="text/javascript" src="/socket.io/socket.io.js")
     script(type='text/javascript').
-      var btnGu = $('#btnGu');
-      var btnPa = $('#btnPa');
-      var btnChoki = $('#btnChoki');
-      var opponentName = $('#opponentName');
-      var nextTe = $('#nextTe');
-      btnGu.click(()=>{
-          console.log("グーボタンを押しました")
-          socket.emit("janken_to_server", {te: 0});
-          nextTe.text("次に出す手: グー")
-      })
-      btnPa.click(()=>{
-          socket.emit("janken_to_server", {te: 1});
-          nextTe.text("次に出す手: チョキ")
-      })
-      btnChoki.click(()=>{
-          socket.emit("janken_to_server", {te: 2});
-          nextTe.text("次に出す手: パー")
-      })
-      var win=0, draw = 0, lose=0;
-      function winIncrement(){
-          win++;
-          $('#winCounter').text("勝ち: " + win);
-      }
-      function drawIncrement() {
-          draw++;
-          $('#drawCounter').text("あいこ: " + draw);
-      }
-      function loseIncrement() {
-          lose++;
-          $('#loseCounter').text("負け: " + lose);
-      }
-      //対戦開始、相手の情報(名前)を受け取る
-      function setOpponentName(name){
-          opponentName.text(name);
-      }
       console.log("hello")
       console.log("roomId:" + #{roomId});
       var socket = io.connect();
@@ -54,17 +19,17 @@ block content
         var res = data.result;
         if(res == '1'){
           console.log("勝った");
-          appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo を出しました)
+          appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo + "を出しました")
           appendMsg("Win!")
           winIncrement();
         }else if(res == '0'){
           console.log("負けた")
-          appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo を出しました)
+          appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo + "を出しました")
           appendMsg("Lose!")
           loseIncrement();
         }else {
           console.log("あいこ");
-          appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo を出しました)
+          appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo + "を出しました")
           appendMsg("draw!")
           drawIncrement();
         }
@@ -73,15 +38,6 @@ block content
         //XSS脆弱性を対策する
         appendMsg(data.msg);
       })
-      function appendMsg(message) {
-            $("#chatLogs").append("<div>" + message + "</div>");
-            $('#chatLogs').animate({scrollTop: $('#chatLogs')[0].scrollHeight}, 'fast');
-        }
-      $("form").submit(function(e){
-        var msg = $("#msgForm").val();
-        socket.emit('message_to_server', {msg: msg});
-        e.preventDefault();
-      }
     div
       div(style='float:left')
         h2 #{username}
@@ -90,7 +46,7 @@ block content
         h2#opponentName 対戦相手は不在です
         p 相手の手: 未設定
     br
-    form
+    form#msgform
       div.form-group
         label(for="msgForm") ユーザーネーム
         input(type="text" name="msgForm").form-control#msgForm
