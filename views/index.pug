@@ -22,13 +22,3 @@ block content
       button(href="/janken/8").btn-outline-success 部屋8
       button(href="/janken/9").btn-outline-success 部屋9
       button(href="/janken/10").btn-outline-success 部屋10
-    //h3.my-3 ルーム状況
-    //table.table
-      tr
-        th ルーム
-        th 人数
-      each roomData in roomMemberNumArray
-        tr
-          td
-            button(href="/janken/#{roomData.roomName}").btn-outline-success 部屋#{roomData.roomName}
-          td #{roomData.number}/2
