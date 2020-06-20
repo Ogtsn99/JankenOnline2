@@ -171,9 +171,6 @@ io.sockets.on('connection', function(socket){
         gcpUpdate(id0, te0);
         gcpUpdate(id1, te1);
         console.log("te0のタイプ:", typeof(te0), "te1のタイプ:", typeof(te1));
-        console.log("parseInt(te[id0]) != -1:", parseInt(te[id0]) != -1, "parseInt(te[id1]) != -1", parseInt(te[id1]) != -1
-        , "((parseInt(te[id0]) != -1) && (parseInt(te[id1]) != -1))", ((parseInt(te[id0]) != -1) && (parseInt(te[id1]) != -1))
-        );
         var stringTe0 = numToJanken[te0], stringTe1 = numToJanken[te1];
         if(te1 === te0){
           console.log("あいこ")

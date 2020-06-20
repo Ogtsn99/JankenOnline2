@@ -4,8 +4,8 @@ block content
     script(type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js")
     script(type="text/javascript" src="/socket.io/socket.io.js")
     script(type='text/javascript').
-      console.log("hello")
-      console.log("roomId:" + #{roomId});
+      //console.log("hello")
+      //console.log("roomId:" + #{roomId});
       var socket = io.connect();
       $(function(){
         var btnGu = $('#btnGu');
@@ -14,7 +14,7 @@ block content
         var opponentName = $('#opponentName');
         var nextTe = $('#nextTe');
         $('#btnGu').click(()=>{
-          console.log("グーボタンを押しました")
+          //console.log("グーボタンを押しました")
           socket.emit("janken_to_server", {te: 0});
           nextTe.text("次に出す手: グー")
         })
@@ -58,24 +58,24 @@ block content
           socket.emit("sendDataToOpponent_s", {username: "#{username}"})
         });
         socket.on("sendDataToOpponent_c", (data) => {
-          console.log("opponent data is received!" + data.opponentName);
+          //console.log("opponent data is received!" + data.opponentName);
           if(data.opponentName != "#{username}") setOpponentName(data.opponentName);
         });
         socket.on("janken_result", (data) => {
           var res = data.res;
-          console.log(res, data);
+          //console.log(res, data);
           if(res == '1' || res == 1){
-            console.log("勝った");
+            //console.log("勝った");
             appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo + "を出しました")
             appendMsg("Win!")
             winIncrement();
           }else if(res == '0' || res == 0){
-            console.log("あいこ");
+            //console.log("あいこ");
             appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo + "を出しました")
             appendMsg("draw!")
             drawIncrement();
           }else{
-            console.log("負けた")
+            //console.log("負けた")
             appendMsg("あなたは" + data.you + "を出し、" + "相手は"+ data.oppo + "を出しました")
             appendMsg("Lose!")
             loseIncrement();
@@ -83,16 +83,16 @@ block content
           nextTe.text("次に出す手: 未設定")
         })
         socket.on("message_to_client", (data) => {
-          console.log("メッセージを受け取りました")
-          console.log(data.msg)
+          //console.log("メッセージを受け取りました")
+          //console.log(data.msg)
           //XSS脆弱性を対策はhelmetでもうできてるらしい
           appendMsg(data.msg);
         })
       })
       function submitMsg(){
-          console.log("メッセージを送ります");
+          //console.log("メッセージを送ります");
           var msg = document.getElementById("input_message").value;
-          console.log(msg);
+          //console.log(msg);
           document.getElementById("input_message").value = '';
           socket.emit('message_to_server', {msg: "[#{username}] " + msg});
       }
