@@ -85,7 +85,7 @@ block content
         socket.on("message_to_client", (data) => {
           console.log("メッセージを受け取りました")
           console.log(data.msg)
-          //XSS脆弱性を対策する
+          //XSS脆弱性を対策はhelmetでもうできてるらしい
           appendMsg(data.msg);
         })
       })
@@ -119,4 +119,7 @@ block content
       p#winCounter 勝ち:0
       p#drawCounter あいこ:0
       p#loseCounter 負け:0
+    br
+    br
+    
       

@@ -36,11 +36,4 @@ router.get('/:roomId', (req, res) => {
         })
     }
 });
-/*
-global.numToJanken = {0: "グー", 1: "チョキ", 2: "パー"};
-global.te = {}; //userId: ユーザーの次の手
-global.countPeople = {}; //roomId: ルームにいるユーザーの数
-global.roomMember = {}; //roomId: ルームにいるユーザー1の(userid, username, socketId), ユーザー2のID
-global.userResult = {}; //userId: 勝ち, あいこ, 負け, gu, choki, pa
-*/
 module.exports = router;

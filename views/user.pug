@@ -2,7 +2,7 @@ extends layout
 block content
   div.my-3
     h1 #{user.username}
-    if user.isSelf
+    if yours
     a(href='/users/' + user.userId + '/edit').btn.btn-info 変更
     //TODO 変更ボタンを作る
     p 勝ち: #{result.win}

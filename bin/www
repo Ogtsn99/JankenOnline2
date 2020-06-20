@@ -97,13 +97,13 @@ const User = require('../models/user');
 const Result = require('../models/result');
 const { count } = require('console');
 
-global.io = require('socket.io')(server);
+var io = require('socket.io')(server);
 
-global.numToJanken = {0: "グー", 1: "チョキ", 2: "パー"};
-global.te = {}; //socketId: ユーザーの次の手
+var numToJanken = {0: "グー", 1: "チョキ", 2: "パー"};
+var te = {}; //socketId: ユーザーの次の手
 global.countPeople = {}; //roomId: ルームにいるユーザーの数
 global.roomMember = {}; //roomId: ルームにいるユーザー1のID(user, socket), ユーザー2のID(user, socket)
-global.userResult = {}; //socketid: userId, 勝ち, あいこ, 負け, gu, choki, pa
+userResult = {}; //socketid: userId, 勝ち, あいこ, 負け, gu, choki, pa
 
 function gcpUpdate(id, te) {
   if(te === 0) userResult[id].gu += 1;
