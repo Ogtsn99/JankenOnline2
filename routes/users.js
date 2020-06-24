@@ -5,7 +5,7 @@ const Result = require('../models/result');
 const loader = require('../models/sequelize-loader');
 
 router.get('/', (req, res, next) => {
-  loader.database.query("SELECT * FROM users LEFT OUTER JOIN results ON 'users.userId' = 'results.userId'").then(([result, metadata])=>{
+  loader.database.query("SELECT * FROM users LEFT OUTER JOIN results ON 'users.userTwitterId' = 'results.userTwitterId'").then(([result, metadata])=>{
     console.log(result);
     res.send(result);
   })
