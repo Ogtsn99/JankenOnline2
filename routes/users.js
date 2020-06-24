@@ -2,6 +2,15 @@ var express = require('express');
 var router = express.Router();
 const User = require('../models/user');
 const Result = require('../models/result');
+const loader = require('../models/sequelize-loader');
+
+router.get('/', (req, res, next) => {
+  
+  loader.database.query("SELECT * FROM users JOIN results ON 'userId' = 'userId'").then(([result, metadata])=>{
+    console.log(result);
+    res.send(result);
+  })
+})
 
 /* GET users listing. */
 router.get('/:userId', function(req, res, next) {
