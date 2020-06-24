@@ -43,8 +43,15 @@ block content
           lose++;
           $('#loseCounter').text("負け: " + lose);
         }
+        var msgCount = 0;
         function appendMsg(message) {
-          $("#chatLogs").append("<div>" + message + "</div>");
+          //XSS脆弱性対策
+          //$("#chatLogs").append("<div>" + message + "</div>");
+          var cntId = msgCount.toString();
+          msgCount += 1;
+          var child = '<div ' + 'id="' + cntId +'"></div>';
+          $("#chatLogs").append(child);
+          $("#" + cntId).text(message)
           $('#chatLogs').animate({scrollTop: $('#chatLogs')[0].scrollHeight}, 'fast');
         }
         /*$("msgform").submit(function(e){
@@ -85,16 +92,14 @@ block content
         socket.on("message_to_client", (data) => {
           //console.log("メッセージを受け取りました")
           //console.log(data.msg)
-          //XSS脆弱性を対策はhelmetでもうできてるらしい
           appendMsg(data.msg);
         })
       })
       function submitMsg(){
           //console.log("メッセージを送ります");
           var msg = document.getElementById("input_message").value;
-          //console.log(msg);
           document.getElementById("input_message").value = '';
-          socket.emit('message_to_server', {msg: "[#{username}] " + msg});
+          if(msg != "") socket.emit('message_to_server', {msg: "[#{username}] " + msg});
       }
     div
       div(style='float:left;')
