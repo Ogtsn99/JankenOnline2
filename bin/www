@@ -126,7 +126,6 @@ for(let i= '0';i <= '9'; i++){
         roomId += j;
         roomId += k 
         roomId += l;
-        console.log(i, j, k, l, roomId);
         countPeople[roomId] = 0;
         roomMember[roomId] = [{userId:null, username:null, socketId: null}, {userId:null, username:null, socketId: null}];
       }

@@ -11,7 +11,10 @@ router.get('/:userId', function(req, res, next) {
     else{
       Result.findByPk(userId).then(result=>{
         if(!result) res.send("ごめんね。対戦成績が見つからなかったよ");
-        else res.render('user', {user: req.user, username: user.username , userId: user.userId, result: result, url: req.url, yours: (req.user.id.toString() === user.userTwitterId)});
+        else {
+          if(req.isAuthenticated()) res.render('user', {user: req.user, username: user.username , userId: user.userId, result: result, url: req.url, yours: (req.user.id.toString() === user.userTwitterId)});
+          else res.render('user', {username: user.username , userId: user.userId, result: result, url: req.url, yours: false});
+        }
       })
     }
   })
@@ -34,7 +37,9 @@ router.get('/:userId/edit', function(req, res, next) {
 router.post('/:userId/edit1', (req, res) => {
   console.log("ユーザー情報の変更");
   var userId = req.params.userId;
-  if(!req.body.name){
+  if(!req.isAuthenticated()){
+    res.send("先にログインしてください");
+  }else if(!req.body.name){
     res.send("無効な入力です");
   }else {
     User.findByPk(userId).then(user => {

@@ -5,6 +5,6 @@ block content
     form(method="post", action=`/users/${user.userId}/edit1`)
       div.form-group
         label(for="name") ユーザーネーム
-        input(type="text" name="name" value=user.username)#name.form-control
+        input(type="text" name="name" value=user.username maxlength="15" required)#name.form-control
       div
         button(type="submit").btn.btn-info 変更する
