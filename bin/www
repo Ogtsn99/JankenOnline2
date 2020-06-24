@@ -165,7 +165,7 @@ io.sockets.on('connection', function(socket){
   });
   socket.on('message_to_server', (data) => {
     console.log("message: " + data.msg);
-    io.sockets.in(roomId).emit("message_to_client", {msg:data.msg});
+    if(data.msg != "") io.sockets.in(roomId).emit("message_to_client", {msg:data.msg});
   })
   socket.on('sendDataToOpponent_s', (data) => {
     console.log('sendDataToOpponent_s: '+data.username);

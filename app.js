@@ -20,6 +20,7 @@ var TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET || '114514';
 
 var app = express();
 app.use(helmet());
+app.use(helmet.xssFilter())
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');

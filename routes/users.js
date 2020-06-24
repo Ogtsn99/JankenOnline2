@@ -23,14 +23,18 @@ router.get('/:userId', function(req, res, next) {
 //edit画面へ移動
 router.get('/:userId/edit', function(req, res, next) {
   var userId = req.params.userId;
-  User.findByPk(userId).then(user => {
-    if(!user) res.send("ごめんね。ユーザーが見つからなかったよ");
-    else{
-      if(user.userTwitterId != req.user.id.toString()){
-        res.send("権限がありません");
-      }else res.render('edit', {user: user});
-    }
-  })
+  if(!req.isAuthenticated()){
+    res.send("先にログインしてください");
+  }else{
+    User.findByPk(userId).then(user => {
+      if(!user) res.send("ごめんね。ユーザーが見つからなかったよ");
+      else{
+        if(user.userTwitterId != req.user.id.toString()){
+          res.send("権限がありません");
+        }else res.render('edit', {user: user});
+      }
+    })
+  }
 });
 
 //ユーザー情報の変更。現在は名前だけ
