@@ -235,7 +235,7 @@ io.sockets.on('connection', function(socket){
       if(countPeople[roomId] < 0 || !countPeople[roomId]) countPeople[roomId]=0;
       io.sockets.in(roomId).emit("message_to_client", {msg:"対戦相手が退出しました"});
       Result.findOne({
-        where: {userTwitterId: userId}
+        where: {usertwitterid: userId}
         }
       ).then((result) => {
         Result.update({ 
@@ -245,7 +245,7 @@ io.sockets.on('connection', function(socket){
           gu: result.gu + userResult[id].gu,
           choki: result.choki + userResult[id].choki,
           pa: result.pa + userResult[id].pa
-        }, { where: {userTwitterId: userId} }).then(()=>{
+        }, { where: {usertwitterid: userId} }).then(()=>{
           console.log("結果をアップデートしました。↓差分");
           console.log(userResult[id])
         });

@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
   }
   if(req.user){
     User.findOne({
-      where: {userTwitterId: req.user.id.toString()}
+      where: {usertwitterid: req.user.id.toString()}
     }).then( (user) =>{
       res.render('index', {user: user, roomMemberNumArray: roomMemberNumArray});
       //res.render('index', {user: user});

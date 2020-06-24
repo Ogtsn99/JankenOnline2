@@ -8,7 +8,7 @@ const User = loader.database.define('users', {
     primaryKey: true,
     allowNull: false
   },
-  userTwitterId: {
+  usertwitterid: {
     type: Sequelize.STRING,
     primaryKey: false,
     allowNull: false

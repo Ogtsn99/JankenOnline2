@@ -5,7 +5,7 @@ const Result = require('../models/result');
 const loader = require('../models/sequelize-loader');
 
 router.get('/', (req, res, next) => {
-  loader.database.query("SELECT * FROM users LEFT OUTER JOIN results ON 'users.userTwitterId' = 'results.userTwitterId'").then(([result, metadata])=>{
+  loader.database.query("SELECT username,win,lose,draw,gu,choki,pa FROM users LEFT OUTER JOIN results ON users.usertwitterid=results.usertwitterid").then(([result, metadata])=>{
     console.log(result);
     res.send(result);
   })
@@ -20,7 +20,7 @@ router.get('/:userId', function(req, res, next) {
       Result.findByPk(userId).then(result=>{
         if(!result) res.send("ごめんね。対戦成績が見つからなかったよ");
         else {
-          if(req.isAuthenticated()) res.render('user', {user: req.user, username: user.username , userId: user.userId, result: result, url: req.url, yours: (req.user.id.toString() === user.userTwitterId)});
+          if(req.isAuthenticated()) res.render('user', {user: req.user, username: user.username , userId: user.userId, result: result, url: req.url, yours: (req.user.id.toString() === user.usertwitterid)});
           else res.render('user', {username: user.username , userId: user.userId, result: result, url: req.url, yours: false});
         }
       })
@@ -37,7 +37,7 @@ router.get('/:userId/edit', function(req, res, next) {
     User.findByPk(userId).then(user => {
       if(!user) res.send("ごめんね。ユーザーが見つからなかったよ");
       else{
-        if(user.userTwitterId != req.user.id.toString()){
+        if(user.usertwitterid != req.user.id.toString()){
           res.send("権限がありません");
         }else res.render('edit', {user: user});
       }
@@ -58,11 +58,11 @@ router.post('/:userId/edit1', (req, res) => {
       if(!user) res.send("ごめんね。ユーザーが見つからなかったよ。");
       else{
         console.log("user Found");
-        if(user.userTwitterId != req.user.id.toString()){
+        if(user.usertwitterid != req.user.id.toString()){
           res.send("権限がありません");
         }else {
           console.log("updateします");
-          User.update({ username: req.body.name }, { where: {userTwitterId: req.user.id.toString()} }).then(()=>{
+          User.update({ username: req.body.name }, { where: {usertwitterid: req.user.id.toString()} }).then(()=>{
             console.log("変更! id:" + userId + "のユーザーネームを" + req.body.name)
             res.redirect('/users/' + userId);
           });

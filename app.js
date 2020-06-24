@@ -80,7 +80,7 @@ function(token, tokenSecret, profile, done) {
   process.nextTick(function () {
       console.log(Id_str+ "=" + "を探します");
       User.findOne({
-        where: {userTwitterId: Id_str}
+        where: {usertwitterid: Id_str}
         }
       ).then((userdata) => {
         console.log("user id" + Id_str)
@@ -88,12 +88,12 @@ function(token, tokenSecret, profile, done) {
           console.log(profile.username + "さん" + "初めまして!");
           User.upsert({
             userId: userId,
-            userTwitterId: Id_str,
+            usertwitterid: Id_str,
             username: profile.username
           })
           Result.upsert({
             userId: userId,
-            userTwitterId: Id_str,
+            usertwitterid: Id_str,
             win: 0,
             lose: 0,
             draw: 0,
