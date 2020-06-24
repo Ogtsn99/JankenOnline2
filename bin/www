@@ -96,6 +96,7 @@ var router = express.Router();
 const User = require('../models/user');
 const Result = require('../models/result');
 const { count } = require('console');
+const { UnavailableForLegalReasons } = require('http-errors');
 
 var io = require('socket.io')(server);
 
@@ -110,9 +111,27 @@ function gcpUpdate(id, te) {
   if(te === 1) userResult[id].choki += 1;
   if(te === 2) userResult[id].pa += 1;
 }
-for (let roomId = 0; roomId < 10000; roomId++) {
+//変える
+for (let roomId = 0; roomId <= 10; roomId++) {
   countPeople[roomId.toString()] = 0;
   roomMember[roomId.toString()] = [{userId:null, username:null, socketId: null}, {userId:null, username:null, socketId: null}];
+}
+
+for(let i= '0';i <= '9'; i++){
+  for(let j= '0';j <= '9'; j++){
+    for(let k= '0';k <= '9'; k++){
+      for(let l= '0';l <= '9'; l++){
+        let roomId = "";
+        roomId += i;
+        roomId += j;
+        roomId += k 
+        roomId += l;
+        console.log(i, j, k, l, roomId);
+        countPeople[roomId] = 0;
+        roomMember[roomId] = [{userId:null, username:null, socketId: null}, {userId:null, username:null, socketId: null}];
+      }
+    }
+  }
 }
 
 io.sockets.on('connection', function(socket){

@@ -1,9 +1,9 @@
 extends layout
 block content
   div.my-3
-    h1 #{user.username}
+    h1 #{username}
     if yours
-      a(href='/users/' + user.userId + '/edit').btn.btn-info 変更
+      a(href='/users/' + userId + '/edit').btn.btn-info 変更
     //TODO 変更ボタンを作る
     p 勝ち: #{result.win}
     p 負け: #{result.lose}
@@ -11,5 +11,6 @@ block content
     p グー: #{result.gu}
     p チョキ: #{result.choki}
     p パー: #{result.pa}
-    a(href="/logout").btn.btn-info ログアウト
+    if yours
+      a(href="/logout").btn.btn-info ログアウト
     //ぜひグラフでいろいろしたいね

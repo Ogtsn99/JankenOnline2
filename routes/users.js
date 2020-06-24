@@ -11,7 +11,7 @@ router.get('/:userId', function(req, res, next) {
     else{
       Result.findByPk(userId).then(result=>{
         if(!result) res.send("ごめんね。対戦成績が見つからなかったよ");
-        else res.render('user', {user: user, result: result, url: req.url, yours: (req.user.id.toString() === user.userTwitterId)});
+        else res.render('user', {user: req.user, username: user.username , userId: user.userId, result: result, url: req.url, yours: (req.user.id.toString() === user.userTwitterId)});
       })
     }
   })

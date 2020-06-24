@@ -26,7 +26,9 @@ router.get('/:roomId', (req, res) => {
                     //roomMember[roomId][sz] = {userId: userId, username: username, socketId: null};
                     res.render('janken', {roomId: roomId, username: username, userId: userId, user: user});
                 }
-            }else if(sz === 0){
+            }else if(sz === 0){//部屋に入れる
+                //ここでcountPeopleを不安と良さげ？ 
+                countPeople[roomId] += 1;
                 roomMember[roomId][0] = {userId: null, username: null, socketId: null};
                 roomMember[roomId][1] = {userId: null, username: null, socketId: null};
                 res.render('janken', {roomId: roomId, username: username, userId: userId, user: user});
