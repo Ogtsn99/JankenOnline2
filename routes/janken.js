@@ -13,7 +13,7 @@ router.get('/:roomId', (req, res) => {
     }else{
         var userId = req.user.id;
         User.findOne({
-                where: {userTwitterId: userId}
+                where: {usertwitterid: userId}
             }
         ).then((user) => {
             var username = user.username;
