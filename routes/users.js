@@ -4,12 +4,33 @@ const User = require('../models/user');
 const Result = require('../models/result');
 const loader = require('../models/sequelize-loader');
 
-router.get('/', (req, res, next) => {
-  loader.database.query("SELECT username,win,lose,draw,gu,choki,pa FROM users LEFT OUTER JOIN results ON users.usertwitterid=results.usertwitterid").then(([result, metadata])=>{
-    console.log(result);
-    res.send(result);
+router.get('/users', (req, res, next) => {
+  loader.database.query("SELECT username,win,lose,draw,gu,choki,pa FROM users LEFT OUTER JOIN results ON users.usertwitterid=results.usertwitterid").then(([results, metadata])=>{
+    res.send(results);
   })
-})
+});
+
+router.get('/ranking/:element/:order', (req, res, next) => {
+  var element = req.params.element;
+  var order = parseInt(req.params.order);
+  loader.database.query("SELECT username,win,lose,draw,gu,choki,pa FROM users LEFT OUTER JOIN results ON users.usertwitterid=results.usertwitterid").then(([results, metadata])=>{
+    console.log(results);
+    results.forEach(result => {
+      result["winRate"] = result.win / (result.lose + result.win) * 100.0;
+      result["sum"] = result.draw + result.lose + result.win;
+    });
+    results.sort((a, b)=>{
+      if(a[element] > b[element]) return -order;
+      else return order;
+    });
+    var zyunbann;
+    if(order > 0) zyunbann = "降順";
+    else if(order < 0) zyunbann = "昇順";
+    else zyunbann = "テキトウ";
+
+    res.render('ranking', {element: element, zyunbann: zyunbann, results: results});
+  })
+});
 
 /* GET users listing. */
 router.get('/:userId', function(req, res, next) {

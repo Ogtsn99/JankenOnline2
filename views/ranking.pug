@@ -1,0 +1,33 @@
+extends layout
+block content
+  div.my-3 
+    h3 ランキング(じゃんけん回数100以下は除外)
+    h4 #{element} 
+    h4 #{zyunbann}
+    table.table
+      tr
+        th
+        th ユーザー名
+        th 対戦数
+        th 勝ち
+        th あいこ
+        th 負け
+        th 勝率
+      - var cnt = 1;
+      each result in results
+        if (result.win + result.lose + result.draw <= 100)
+          - continue
+        tr
+          td #{cnt}
+          - cnt++;
+          td #{result.username}
+          td #{result.sum}
+          td #{result.win}
+          td #{result.draw}
+          td #{result.lose}
+          td #{result.winRate} 
+  br
+  br
+  p URLの右2つを操作するとランキングのソートができます
+  p 勝率→winRate, 対戦数→sum, 勝ち→win, 負け→lose, あいこ→draw
+  p 1→降順, -1→昇順
