@@ -4,7 +4,7 @@ const User = require('../models/user');
 const Result = require('../models/result');
 const loader = require('../models/sequelize-loader');
 
-router.get('/users', (req, res, next) => {
+router.get('/', (req, res, next) => {
   loader.database.query("SELECT username,win,lose,draw,gu,choki,pa FROM users LEFT OUTER JOIN results ON users.usertwitterid=results.usertwitterid").then(([results, metadata])=>{
     res.send(results);
   })
