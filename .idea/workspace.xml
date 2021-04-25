@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="dbbb9042-7441-49ac-a771-d113af022861" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/node_modules/.yarn-integrity" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.yarn-integrity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/lodash/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/lodash/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/lodash/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/lodash/core.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/lodash/core.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/lodash/core.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/lodash/lodash.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/lodash/lodash.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/lodash/lodash.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/lodash/lodash.min.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/lodash/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/lodash/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/void-elements/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/void-elements/.gitattributes" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/void-elements/.npmignore" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/void-elements/.npmignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/void-elements/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/void-elements/.travis.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/void-elements/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/void-elements/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/void-elements/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/void-elements/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/void-elements/pre-publish.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/void-elements/pre-publish.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/void-elements/test/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/void-elements/test/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
+  </component>
+  <component name="ProjectId" id="1rTWCsXdwlkjcURIafOEyMh2xY7" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="yarn" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dbbb9042-7441-49ac-a771-d113af022861" name="Default Changelist" comment="" />
+      <created>1619000438371</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1619000438371</updated>
+      <workItem from="1619000441666" duration="425000" />
+      <workItem from="1619346529211" duration="609000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="351" y="209" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1619000609345">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="351" y="209" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.800/0.-1080.1920.1080@0.0.1280.800" timestamp="1619000609345" />
+    <state width="1259" height="212" key="GridCell.Tab.0.bottom" timestamp="1619000871172">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1259" height="212" key="GridCell.Tab.0.bottom/0.0.1280.800/0.-1080.1920.1080@0.0.1280.800" timestamp="1619000871172" />
+    <state width="1259" height="212" key="GridCell.Tab.0.center" timestamp="1619000871170">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1259" height="212" key="GridCell.Tab.0.center/0.0.1280.800/0.-1080.1920.1080@0.0.1280.800" timestamp="1619000871170" />
+    <state width="1259" height="212" key="GridCell.Tab.0.left" timestamp="1619000871168">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1259" height="212" key="GridCell.Tab.0.left/0.0.1280.800/0.-1080.1920.1080@0.0.1280.800" timestamp="1619000871168" />
+    <state width="1259" height="212" key="GridCell.Tab.0.right" timestamp="1619000871171">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state width="1259" height="212" key="GridCell.Tab.0.right/0.0.1280.800/0.-1080.1920.1080@0.0.1280.800" timestamp="1619000871171" />
+  </component>
+</project>
