@@ -68,7 +68,7 @@ passport.use(new TwitterStrategy(
 {
   consumerKey: TWITTER_CONSUMER_KEY,
   consumerSecret: TWITTER_CONSUMER_SECRET,
-  callbackURL: 'https://jankenonline2.herokuapp.com/auth/twitter/callback'
+  callbackURL: `${process.env.URL}/auth/twitter/callback`
 },
 // 認証後の処理
 function(token, tokenSecret, profile, done) {
